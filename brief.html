@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Brief de Negocio | Origen Herbal</title>
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos de Google (Material Symbols Outlined) -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <style>
+        /* --- CONFIGURACIÓN BASE DEL DASHBOARD --- */
+        :root {
+            --verde-oscuro: #2D4236;
+            --verde-oliva: #4A6B53;
+            --verde-claro: #A3B899;
+            --arena: #F7F5F0;
+            --blanco: #FFFFFF;
+            --texto-oscuro: #1A241E;
+            --texto-suave: #606C64;
+            --fuente-titulos: 'Playfair Display', serif;
+            --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--fuente-cuerpo);
+            color: var(--texto-oscuro);
+            background-color: #FAFAFA;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--fuente-titulos);
+            color: var(--verde-oscuro);
+        }
+
+        .material-symbols-outlined {
+            display: inline-block;
+            vertical-align: middle;
+            user-select: none;
+        }
+
+        /* --- HEADER MÓVIL --- */
+        .mobile-header {
+            background-color: var(--blanco);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 101;
+        }
+
+        /* --- BARRA LATERAL (SIDEBAR) --- */
+        .sidebar {
+            width: 100%;
+            max-width: 280px;
+            background-color: var(--blanco);
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: -100%;
+            z-index: 200;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            padding-left: 5px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: var(--fuente-titulos);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--verde-oscuro);
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            display: block;
+            font-family: var(--fuente-cuerpo);
+            color: var(--texto-suave);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        /* --- MENÚ --- */
+        .menu-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: var(--texto-suave);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item a .menu-icon {
+            font-size: 1.3rem;
+            color: var(--texto-suave);
+        }
+
+        .menu-item.active a,
+        .menu-item a:hover {
+            background-color: var(--arena);
+            color: var(--verde-oscuro);
+        }
+
+        .menu-item.active a .menu-icon,
+        .menu-item a:hover .menu-icon {
+            color: var(--verde-oscuro);
+        }
+
+        /* --- BOTÓN FLOTANTE MÓVIL --- */
+        .menu-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: var(--verde-oscuro);
+            color: var(--blanco);
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 201;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- OVERLAY --- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 199;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-content {
+            flex: 1;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* --- SECCIONES --- */
+        .brief-section {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .brief-section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+        }
+
+        .section-header p {
+            color: var(--texto-suave);
+            font-size: 0.9rem;
+        }
+
+        /* --- HERO CARD --- */
+        .hero-card {
+            background-color: var(--verde-oscuro);
+            color: var(--blanco);
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .hero-card h1 {
+            color: var(--blanco);
+            font-size: 1.8rem;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .hero-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--blanco);
+            color: var(--verde-oscuro);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: center;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn.secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--blanco);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* MÉTRICAS GRID */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: var(--blanco);
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .metric-card span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--texto-suave);
+            font-weight: 600;
+        }
+
+        .metric-card h3 {
+            font-size: 1.3rem;
+            color: var(--verde-oliva);
+            margin: 4px 0;
+        }
+
+        .metric-card p {
+            font-size: 0.8rem;
+            color: var(--texto-suave);
+        }
+
+        /* --- COMPONENTE INTERACTIVO: EQUIPO --- */
+        .interactive-team-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .team-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .team-tab-btn {
+            background: var(--blanco);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .team-tab-btn.active {
+            border-color: var(--verde-oliva);
+            background-color: var(--arena);
+        }
+
+        .tab-meta h4 {
+            font-family: var(--fuente-cuerpo);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .tab-meta p {
+            font-size: 0.8rem;
+            color: var(--texto-suave);
+        }
+
+        .tab-badge {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--verde-oscuro);
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .team-detail-panel {
+            background: var(--blanco);
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .panel-label {
+            color: var(--verde-oliva);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .team-detail-panel h3 {
+            font-size: 1.5rem;
+            margin: 5px 0 15px 0;
+        }
+
+        .detail-block {
+            margin-bottom: 15px;
+        }
+
+        .detail-block h5 {
+            font-family: var(--fuente-cuerpo);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--texto-suave);
+            margin-bottom: 4px;
+        }
+
+        .detail-block p {
+            color: var(--texto-suave);
+            font-size: 0.9rem;
+        }
+
+        /* --- SEGMENTACIÓN TABS --- */
+        .segment-toggle-bar {
+            display: flex;
+            gap: 8px;
+            background: #EEEEEE;
+            padding: 4px;
+            border-radius: 6px;
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+
+        .segment-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 16px;
+            font-family: var(--fuente-cuerpo);
+            font-weight: 600;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--texto-suave);
+        }
+
+        .segment-btn.active {
+            background: var(--blanco);
+            color: var(--verde-oscuro);
+        }
+
+        .segment-view {
+            display: none;
+        }
+
+        .segment-view.active-view {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .profile-summary-card,
+        .profile-detail-card {
+            background: var(--blanco);
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .profile-badge {
+            background-color: rgba(74, 107, 83, 0.1);
+            color: var(--verde-oliva);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .profile-summary-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .quote-block {
+            font-family: var(--fuente-titulos);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--verde-oliva);
+            border-left: 3px solid var(--verde-claro);
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* --- COMPONENTE: TABLA DE COMPETENCIA --- */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--blanco);
+            min-width: auto;
+        }
+
+        .comp-table th {
+            background: #F9F9F9;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--texto-suave);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .comp-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            font-size: 0.85rem;
+            color: var(--texto-suave);
+        }
+
+        .brand-highlight {
+            background-color: rgba(247, 245, 240, 0.5);
+            color: var(--verde-oliva) !important;
+            font-weight: 700;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Transición limpia al explorar el análisis competitivo */
+        td.brand-highlight:hover {
+            background-color: var(--verde-oscuro);
+            color: var(--blanco) !important;
+            cursor: help;
+        }
+
+        /* --- TARJETAS VALORES --- */
+        .values-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .value-mini-card {
+            background: var(--blanco);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .value-mini-card h4 {
+            font-family: var(--fuente-cuerpo);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .value-mini-card p {
+            font-size: 0.8rem;
+            color: var(--texto-suave);
+        }
+
+        /* --- TARJETAS PRODUCTOS (ANTES PRECIOS) --- */
+        .pricing-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .price-card {
+            background: var(--blanco);
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .price-card.featured {
+            border-color: var(--verde-oliva);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            position: relative;
+        }
+
+        .featured-tag {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: var(--verde-oliva);
+            color: var(--blanco);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .price-card h3 {
+            font-size: 1.4rem;
+        }
+
+        .price-card .cost {
+            font-size: 1.8rem;
+            font-family: var(--fuente-cuerpo);
+            font-weight: 700;
+            color: var(--verde-oscuro);
+            margin: 10px 0;
+        }
+
+        .price-card .cost span {
+            font-size: 0.85rem;
+            color: var(--texto-suave);
+            font-weight: 400;
+        }
+
+        .price-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--texto-suave);
+            margin-top: 15px;
+        }
+
+        /* Contenedor de imagen interna del producto */
+        .product-img-container {
+            width: 100%;
+            height: 140px;
+            background-color: var(--arena);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .product-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+
+        /* --- MEDIA QUERIES PARA PANTALLAS GRANDES (ESCRITORIO) --- */
+        @media (min-width: 992px) {
+            body {
+                flex-direction: row;
+            }
+
+            .mobile-header,
+            .menu-toggle-btn {
+                display: none !important;
+            }
+
+            .sidebar {
+                left: 0 !important;
+                position: fixed;
+            }
+
+            .main-content {
+                margin-left: 280px;
+                padding: 40px 50px;
+            }
+
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .hero-card {
+                padding: 45px;
+                border-radius: 16px;
+            }
+
+            .hero-card h1 {
+                font-size: 2.6rem;
+            }
+
+            .btn-row {
+                flex-direction: row;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+
+            .values-row {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+
+            .pricing-grid {
+                flex-direction: row;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+            }
+
+            .interactive-team-container {
+                grid-template-columns: 1fr 1.2fr;
+                flex-direction: row;
+                gap: 30px;
+            }
+
+            .segment-view.active-view {
+                flex-direction: column;
+                grid-template-columns: 1fr 1.5fr;
+                gap: 30px;
+            }
+        }
+
+        /* --- ESTILOS DE IMPRESIÓN REORGANIZADOS PARA EXPORTACIÓN A PDF --- */
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #000000 !important;
+                flex-direction: column !important;
+            }
+
+            .sidebar,
+            .mobile-header,
+            .menu-toggle-btn,
+            .sidebar-overlay,
+            .btn-row,
+            .segment-toggle-bar,
+            .team-tabs {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+
+            .brief-section {
+                display: block !important;
+                page-break-after: always !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .brief-section:last-child {
+                page-break-after: avoid !important;
+            }
+
+            .segment-view {
+                display: block !important;
+                margin-bottom: 30px !important;
+            }
+
+            .hero-card {
+                background: #2D4236 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color: #FFFFFF !important;
+                padding: 30px !important;
+            }
+
+            .hero-card h1 {
+                color: #FFFFFF !important;
+            }
+
+            .metric-card,
+            .profile-summary-card,
+            .profile-detail-card,
+            .value-mini-card,
+            .price-card,
+            .team-detail-panel {
+                page-break-inside: avoid !important;
+                border: 1px solid #DDDDDD !important;
+                margin-bottom: 20px !important;
+            }
+
+            .metrics-grid,
+            .values-row {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 15px !important;
+            }
+
+            .comp-table {
+                min-width: 100% !important;
+            }
+
+            th,
+            td {
+                border: 1px solid #EEEEEE !important;
+            }
+
+            .interactive-team-container {
+                display: block !important;
+            }
+
+            .team-detail-panel::after {
+                display: block;
+                content: "\A\A --------------------------------------------------\A\A DISEÑO & EXPERIENCIA\A Mateo Bermúdez Ramos\A\A Responsabilidades Clave:\A Garantizar que cada punto de contacto web evoque un viaje sensorial y mantenga una usabilidad móvil intuitiva impecable.\A\A Perfil del Miembro:\A Diseñador Senior UI/UX con sensibilidad por marcas minimalistas limpias.\A\A\A --------------------------------------------------\A\A ARQUITECTURA TÉCNICA\A Santiago Torres Restrepo\A\A Responsabilidades Clave:\A Estructurar código limpio y escalable en JavaScript nativo, velar por la seguridad de los datos y optimizar cargas.\A\A Perfil del Miembro:\A Ingeniero Full-Stack experto en optimización de rendimiento y arquitecturas web ágiles.";
+                white-space: pre-wrap;
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                font-size: 0.9rem;
+                color: #1A241E;
+                margin-top: 20px;
+                line-height: 1.5;
+            }
+        }
+
+        .print-only {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CABECERA MÓVIL -->
+    <div class="mobile-header">
+        <div class="logo-area" style="margin-bottom: 0; padding-left: 0;">
+            <img src="https://cdn-icons-png.flaticon.com/512/5149/5149120.png" alt="Logo Origen Herbal"
+                class="logo-img">
+            <div class="logo-text">
+                Origen Herbal
+                <span>Brief de Negocio</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-area">
+            <img src="https://cdn-icons-png.flaticon.com/512/5149/5149120.png" alt="Logo Origen Herbal"
+                class="logo-img">
+            <div class="logo-text">
+                Origen Herbal
+                <span>Brief Corporativo</span>
+            </div>
+        </div>
+
+        <ul class="menu-list">
+            <li class="menu-item active" onclick="switchSection('resumen', this)">
+                <a href="#resumen">
+                    <span class="material-symbols-outlined menu-icon">dashboard</span>
+                    Resumen General
+                </a>
+            </li>
+            <li class="menu-item" onclick="switchSection('equipo', this)">
+                <a href="#equipo">
+                    <span class="material-symbols-outlined menu-icon">groups</span>
+                    Equipo de Trabajo
+                </a>
+            </li>
+            <li class="menu-item" onclick="switchSection('empresa', this)">
+                <a href="#empresa">
+                    <span class="material-symbols-outlined menu-icon">corporate_fare</span>
+                    Info. de la Empresa
+                </a>
+            </li>
+            <li class="menu-item" onclick="switchSection('comercial', this)">
+                <a href="#comercial">
+                    <span class="material-symbols-outlined menu-icon">payments</span>
+                    Info. Comercial
+                </a>
+            </li>
+            <li class="menu-item" onclick="switchSection('segmentacion', this)">
+                <a href="#segmentacion">
+                    <span class="material-symbols-outlined menu-icon">target</span>
+                    Segmentación
+                </a>
+            </li>
+            <li class="menu-item" onclick="switchSection('competencia', this)">
+                <a href="#competencia">
+                    <span class="material-symbols-outlined menu-icon">monitoring</span>
+                    Análisis Competitivo
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+
+    <!-- BOTÓN MÓVIL -->
+    <button class="menu-toggle-btn" onclick="toggleMobileMenu()">
+        <span class="material-symbols-outlined" style="color: white;">menu</span>
+    </button>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <!-- RESUMEN GENERAL -->
+        <section id="resumen" class="brief-section active-section">
+            <div class="hero-card">
+                <h1>Modelando el futuro de la cosmética viva y natural</h1>
+                <p>Origen Herbal es el ecosistema nativo digital que fusiona la pureza botánica en lotes frescos con
+                    empaques circulares de aluminio retornable.</p>
+                <div class="btn-row">
+                    <button class="action-btn" onclick="document.querySelector('[onclick*=\'comercial\']').click()">
+                        <span class="material-symbols-outlined" style="font-size:1.1rem;">sell</span> Ver Catálogo
+                    </button>
+                    <button class="action-btn secondary" onclick="window.print()">
+                        <span class="material-symbols-outlined" style="font-size:1.1rem;">picture_as_pdf</span>
+                        Descargar Brief (PDF)
+                    </button>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card"><span>Modelo de negocio</span>
+                    <h3>E-commerce</h3>
+                    <p>D2C & Consumidor</p>
+                </div>
+                <div class="metric-card"><span>Retención Meta</span>
+                    <h3>35%</h3>
+                    <p>Anual en recurrencia</p>
+                </div>
+                <div class="metric-card"><span>Audiencia objetivo</span>
+                    <h3>Conscientes</h3>
+                    <p>Millennials / Gen Z</p>
+                </div>
+                <div class="metric-card"><span>Diferenciador</span>
+                    <h3>Circular</h3>
+                    <p>Retorno de envases</p>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin: 25px 0 15px 0;">Estado del negocio (Hitos)</h3>
+            <div class="values-row" style="margin-top: 0;">
+                <div class="value-mini-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <h4>Fabricación del producto</h4>
+                        <span style="font-size:0.75rem; color:var(--verde-oliva); font-weight:700;">100%</span>
+                    </div>
+                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                        <div style="width:100%; background:var(--verde-oliva); height:100%;"></div>
+                    </div>
+                </div>
+                <div class="value-mini-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <h4>Distribución</h4>
+                        <span style="font-size:0.75rem; color:var(--verde-oliva); font-weight:700;">100%</span>
+                    </div>
+                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                        <div style="width:100%; background:var(--verde-oliva); height:100%;"></div>
+                    </div>
+                </div>
+                <div class="value-mini-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <h4>Estrategias de marketing</h4>
+                        <span style="font-size:0.75rem; color:#D9A74A; font-weight:700;">75%</span>
+                    </div>
+                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                        <div style="width:75%; background:#D9A74A; height:100%;"></div>
+                    </div>
+                </div>
+                <div class="value-mini-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <h4>Logística</h4>
+                        <span style="font-size:0.75rem; color:var(--texto-suave); font-weight:700;">70%</span>
+                    </div>
+                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                        <div style="width:70%; background:var(--verde-claro); height:100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin: 35px 0 20px 0;" hidden>Hoja de Ruta del Proyecto (Roadmap 2026)</h3>
+            <div
+                style="display: none; flex-direction: column; gap: 15px; position: relative; padding-left: 20px; border-left: 2px solid var(--verde-claro);">
+
+                <!-- Hito 1 -->
+                <div style="position: relative; margin-bottom: 5px;">
+                    <div
+                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--verde-oliva); border: 2px solid var(--blanco);">
+                    </div>
+                    <span
+                        style="font-size: 0.75rem; font-weight: 700; color: var(--verde-oliva); text-transform: uppercase;">Q1
+                        2026 — Completado</span>
+                    <h4 style="font-size: 0.95rem; margin: 2px 0; color: var(--texto-oscuro);">Ideación y Formulación
+                        Química Base</h4>
+                    <p style="font-size: 0.85rem; color: var(--texto-suave);">Validación de proveedores locales, testeo
+                        de estabilidad de fórmulas botánicas frescas y maquetación de la arquitectura de la app.</p>
+                </div>
+
+                <!-- Hito 2 -->
+                <div style="position: relative; margin-bottom: 5px;">
+                    <div
+                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #D9A74A; border: 2px solid var(--blanco);">
+                    </div>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #D9A74A; text-transform: uppercase;">Q2
+                        2026 — En Desarrollo Activo</span>
+                    <h4 style="font-size: 0.95rem; margin: 2px 0; color: var(--texto-oscuro);">Desarrollo Técnico y
+                        Alianzas B2B</h4>
+                    <p style="font-size: 0.85rem; color: var(--texto-suave);">Construcción del sistema de suscripciones
+                        recurrentes, integración del Canvas interactivo y negociación de rutas de logística inversa.</p>
+                </div>
+
+                <!-- Hito 3 -->
+                <div style="position: relative;">
+                    <div
+                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--texto-suave); border: 2px solid var(--blanco);">
+                    </div>
+                    <span
+                        style="font-size: 0.75rem; font-weight: 700; color: var(--texto-suave); text-transform: uppercase;">Q3
+                        2026 — Próximo</span>
+                    <h4 style="font-size: 0.95rem; margin: 2px 0; color: var(--texto-oscuro);">Lanzamiento Beta y
+                        Campaña de Tracción</h4>
+                    <p style="font-size: 0.85rem; color: var(--texto-suave);">Apertura del canal digital para los
+                        primeros 200 usuarios beta, despliegue de la estrategia de contenidos en TikTok y medición del
+                        feedback operacional.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFORMACIÓN DEL EQUIPO DE TRABAJO -->
+        <section id="equipo" class="brief-section">
+            <div class="section-header">
+                <h2>1. Información del Equipo de Trabajo</h2>
+                <p>Estructura organizacional ágil para acelerar el desarrollo del proyecto.</p>
+            </div>
+            <div class="interactive-team-container">
+                <div class="team-tabs">
+                    <div class="team-tab-btn active" onclick="showTeamDetail('ceo', this)">
+                        <div class="tab-meta">
+                            <h4>Ronald S. Ledesma De La Cruz</h4>
+                            <p>Director de Proyecto / CEO</p>
+                        </div>
+                        <span class="tab-badge">CEO</span>
+                    </div>
+                    <div class="team-tab-btn" onclick="showTeamDetail('cpo', this)">
+                        <div class="tab-meta">
+                            <h4>Mateo Bermúdez Ramos</h4>
+                            <p>Director de Producto & UX</p>
+                        </div>
+                        <span class="tab-badge">CPO</span>
+                    </div>
+                    <div class="team-tab-btn" onclick="showTeamDetail('cto', this)">
+                        <div class="tab-meta">
+                            <h4>Santiago Torres Restrepo</h4>
+                            <p>Director de Tecnología / CTO</p>
+                        </div>
+                        <span class="tab-badge">CTO</span>
+                    </div>
+                </div>
+
+                <div class="team-detail-panel panel-ceo">
+                    <span class="panel-label" id="team-label">Fundador</span>
+                    <h3 id="team-title">Ronald S. Ledesma De La Cruz</h3>
+                    <div class="detail-block">
+                        <h5>Responsabilidades Clave</h5>
+                        <p id="team-resp">Definir la visión estratégica, alianzas comerciales de alto nivel,
+                            levantamiento de capital orgánico y coordinación general.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h5>Perfil del Miembro</h5>
+                        <p id="team-perfil">Liderazgo empático, visión de negocio verde, experiencia en startups del
+                            sector digital o sustentable.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFORMACIÓN DE LA EMPRESA -->
+        <section id="empresa" class="brief-section">
+            <div class="section-header">
+                <h2>2. Información de la Empresa</h2>
+                <p>Nuestra identidad corporativa profunda, propósito medular y bases éticas.</p>
+            </div>
+            <div class="segment-view active-view">
+                <div class="profile-summary-card" style="background: var(--verde-oscuro); color: var(--blanco);">
+                    <h3 style="color: var(--verde-claro); margin-bottom: 10px;">Misión</h3>
+                    <p style="font-size: 0.9rem; opacity:0.9;">Proveer alternativas de cuidado personal botánico que
+                        respeten fielmente los ritmos orgánicos del cuerpo y de la tierra, erradicando el uso de
+                        plásticos tradicionales.</p>
+                </div>
+                <div class="profile-summary-card">
+                    <h3>Visión</h3>
+                    <p style="font-size: 0.9rem; color: var(--texto-suave);">Convertirse en la marca digital de
+                        referencia en Latinoamérica donde los consumidores co-crean el futuro de la cosmética
+                        consciente.</p>
+                </div>
+            </div>
+            <h3 style="font-size: 1.2rem; margin: 25px 0 10px 0;">Nuestros Valores</h3>
+            <div class="values-row">
+                <div class="value-mini-card">
+                    <h4>Transparencia</h4>
+                    <p>Ingredientes limpios e íntegros.</p>
+                </div>
+                <div class="value-mini-card">
+                    <h4>Reciprocidad</h4>
+                    <p>Respeto mutuo con la tierra.</p>
+                </div>
+                <div class="value-mini-card">
+                    <h4>Co-creación</h4>
+                    <p>Fórmulas validadas en comunidad.</p>
+                </div>
+                <div class="value-mini-card">
+                    <h4>Circularidad</h4>
+                    <p>Logística sin residuos basura.</p>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin: 35px 0 15px 0;">Matriz de Gestión de Riesgos Estratégicos</h3>
+            <div class="profile-summary-card"
+                style="background: var(--blanco); padding: 0; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+                <table class="comp-table" style="margin: 0; width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--arena);">
+                            <th
+                                style="padding: 12px; text-align: left; font-size: 0.85rem; color: var(--verde-oscuro);">
+                                Riesgo Identificado</th>
+                            <th
+                                style="padding: 12px; text-align: left; font-size: 0.85rem; color: var(--verde-oscuro);">
+                                Impacto</th>
+                            <th
+                                style="padding: 12px; text-align: left; font-size: 0.85rem; color: var(--verde-oscuro);">
+                                Estrategia de Mitigación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px; font-size: 0.85rem;"><strong>Quiebre de stock de insumos
+                                    locales</strong></td>
+                            <td style="padding: 12px; font-size: 0.85rem;"><span
+                                    style="color: #D9A74A; font-weight: 600;">Medio</span></td>
+                            <td style="padding: 12px; font-size: 0.85rem; color: var(--texto-suave);">Desarrollo de una
+                                red de co-proveedores en el Valle del Cauca y contratos de pre-compra de cultivos
+                                estacionales.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; font-size: 0.85rem;"><strong>Baja tasa de retorno de envases
+                                    (Logística)</strong></td>
+                            <td style="padding: 12px; font-size: 0.85rem;"><span
+                                    style="color: #D9A74A; font-weight: 600;">Alto</span></td>
+                            <td style="padding: 12px; font-size: 0.85rem; color: var(--texto-suave);">Gamificación
+                                agresiva: el usuario recibe descuentos acumulativos directos en su suscripción por cada
+                                envase devuelto.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- INFORMACIÓN COMERCIAL (PRODUCTOS) -->
+        <section id="comercial" class="brief-section">
+            <div class="section-header">
+                <h2>3. Información Comercial y Productos</h2>
+                <p>Portafolio exclusivo de productos de Origen Herbal con envase retornable.</p>
+            </div>
+            <div class="pricing-grid">
+                <!-- Producto 1 -->
+                <div class="price-card">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=400&auto=format&fit=cover" alt="Suero Botánico Hidratante">
+                    </div>
+                    <h3>Suero Antioxidante</h3>
+                    <div class="cost">$24<span> / unidad</span></div>
+                    <ul>
+                        <li>✓ 30ml de infusión botánica concentrada</li>
+                        <li>✓ Base de caléndula y extracto de aloe vera</li>
+                        <li>✓ Envase de aluminio hermético reutilizable</li>
+                        <li>✓ Retorno: -$3 en tu próxima compra</li>
+                    </ul>
+                </div>
+
+                <!-- Producto 2 (Recomendado) -->
+                <div class="price-card featured">
+                    <span class="featured-tag">Recomendado</span>
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=400&auto=format&fit=cover" alt="Óleo Regenerador Facial">
+                    </div>
+                    <h3>Óleo Ritual Humano</h3>
+                    <div class="cost">$45<span> / unidad</span></div>
+                    <ul>
+                        <li>✓ 50ml de elixir puro prensado en frío</li>
+                        <li>✓ Enriquecido con jojoba y aceites esenciales</li>
+                        <li>✓ Dosificador premium de alta durabilidad</li>
+                        <li>✓ Envío local prioritario gratis</li>
+                        <li>✓ Retorno: -$5 en tu próxima compra</li>
+                    </ul>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="price-card">
+                    <div class="product-img-container">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400&auto=format&fit=cover" alt="Crema Sólida Alquimia">
+                    </div>
+                    <h3>Bálsamo Alquimia Pro</h3>
+                    <div class="cost">$35<span> / unidad</span></div>
+                    <ul>
+                        <li>✓ 80g de emulsión sólida regeneradora</li>
+                        <li>✓ Manteca de cacao pura y extractos botánicos</li>
+                        <li>✓ Cero desperdicio, 100% biodegradable</li>
+                        <li>✓ Retorno: -$4 en tu próxima compra</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin: 35px 0 15px 0;">Calculadora de Impacto Ambiental Estimado</h3>
+            <div class="profile-summary-card"
+                style="background: var(--arena); border-left: 4px solid var(--verde-oliva);">
+                <p style="font-size: 0.9rem; color: var(--texto-oscuro); margin-bottom: 15px; font-weight: 500;">
+                    Si alcanzamos nuestra meta de compradores mensuales que consumen y retornan envases, ¿cuánto plástico le evitaremos al planeta?
+                </p>
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
+                    <input type="number" id="input-suscriptores" value="500" min="10" step="50"
+                        oninput="calcularImpacto()"
+                        style="padding: 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; width: 120px; font-family: var(--fuente-cuerpo); font-size: 1rem; font-weight: 600; color: var(--verde-oscuro);">
+                    <span style="font-size: 0.9rem; color: var(--texto-suave); font-weight: 600;">Compradores recurrentes</span>
+                </div>
+                <div class="metrics-grid" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                    <div style="background:var(--blanco); padding:12px; border-radius:6px; text-align:center;">
+                        <span
+                            style="font-size:0.7rem; color:var(--texto-suave); display:block; text-transform:uppercase;">Botellas
+                            Plásticas Evitadas / Año</span>
+                        <h4 id="impacto-botellas" style="font-size:1.6rem; color:var(--verde-oscuro); margin-top:4px;">
+                            6,000</h4>
+                    </div>
+                    <div style="background:var(--blanco); padding:12px; border-radius:6px; text-align:center;">
+                        <span
+                            style="font-size:0.7rem; color:var(--texto-suave); display:block; text-transform:uppercase;">Huella
+                            de CO₂ Reducida</span>
+                        <h4 id="impacto-co2" style="font-size:1.6rem; color:var(--verde-oscuro); margin-top:4px;">180 kg
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin: 30px 0 15px 0;" hidden>Proyección Financiera Recurrente (Venta Cruzada y Recompras)</h3>
+            <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr); gap: 15px; display: none;">
+                <div
+                    style="background: var(--arena); padding: 15px; border-radius: 8px; border-left: 3px solid var(--verde-oliva);">
+                    <span
+                        style="font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; font-weight: 600; display: block;">MRR
+                        Estimado (Mes 3)</span>
+                    <h4 style="font-size: 1.4rem; color: var(--verde-oscuro); margin-top: 5px; font-weight: 700;">$7,500
+                        USD</h4>
+                    <p style="font-size: 0.75rem; color: var(--verde-oliva); margin-top: 4px; font-weight: 500;">~150
+                        usuarios activos</p>
+                </div>
+                <div
+                    style="background: var(--arena); padding: 15px; border-radius: 8px; border-left: 3px solid var(--verde-oliva);">
+                    <span
+                        style="font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; font-weight: 600; display: block;">LTV
+                        Promedio</span>
+                    <h4 style="font-size: 1.4rem; color: var(--verde-oscuro); margin-top: 5px; font-weight: 700;">$180
+                        USD</h4>
+                    <p style="font-size: 0.75rem; color: var(--texto-suave); margin-top: 4px;">Ciclo prom: 6 meses
+                    </p>
+                </div>
+                <div
+                    style="background: var(--arena); padding: 15px; border-radius: 8px; border-left: 3px solid #D9A74A;">
+                    <span
+                        style="font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; font-weight: 600; display: block;">Costo
+                        de Adquisición (CAC)</span>
+                    <h4 style="font-size: 1.4rem; color: var(--verde-oscuro); margin-top: 5px; font-weight: 700;">$15
+                        USD</h4>
+                    <p style="font-size: 0.75rem; color: #D9A74A; margin-top: 4px; font-weight: 500;">Ratio LTV/CAC: 12x
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEGMENTACIÓN DE MERCADOS -->
+        <section id="segmentacion" class="brief-section">
+            <div class="section-header">
+                <h2>4. Segmentación de Mercados</h2>
+                <p>Comprensión del público consumidor (B2C) y aliados estratégicos (B2B).</p>
+            </div>
+            <div class="segment-toggle-bar">
+                <button class="segment-btn active" onclick="switchSegmentView('b2c', this)">Público B2C</button>
+                <button class="segment-btn" onclick="switchSegmentView('b2b', this)">Marcas B2B</button>
+            </div>
+
+            <div id="segment-b2c" class="segment-view active-view">
+                <div class="profile-summary-card">
+                    <span class="profile-badge">B2C</span>
+                    <h3>Consumidor Consciente</h3>
+                    <p style="font-size:0.9rem; color:var(--texto-suave);">Urbano, 20 a 45 años, prioriza la salud
+                        limpia y la sostenibilidad real en su rutina diaria.</p>
+                </div>
+                <div class="profile-detail-card">
+                    <h4>Mateo, 26 años (Activista)</h4>
+                    <div class="quote-block">"No quiero comprar productos que dejen botellas plásticas flotando en el
+                        océano durante cien años."</div>
+                </div>
+
+                <div style="width: 100%; flex: 1 1 100%; margin-top: 30px;">
+                    <h4
+                        style="font-size: 1rem; margin: 0 0 15px 0; color: var(--verde-oscuro); font-family: var(--fuente-titulos); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Distribución de Canales de Adquisición
+                    </h4>
+                    <div class="values-row" style="margin-top: 0; gap: 15px; display: flex; width: 100%; overflow: auto;">
+                        <div class="value-mini-card"
+                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                                <h5
+                                    style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">
+                                    Contenido Orgánico</h5>
+                                <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">45%</span>
+                            </div>
+                            <div
+                                style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                <div style="width: 45%; background: var(--verde-oliva); height: 100%;"></div>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
+                                Estrategia de contenidos en TikTok enfocada en el estilo de vida sustentable y frescura
+                                botánica.
+                            </p>
+                        </div>
+
+                        <div class="value-mini-card"
+                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                                <h5
+                                    style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">
+                                    Programa de Referidos</h5>
+                                <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">30%</span>
+                            </div>
+                            <div
+                                style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                <div style="width: 30%; background: var(--verde-oliva); height: 100%;"></div>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
+                                Crecimiento orgánico voz a voz mediante incentivos y beneficios cruzados en la
+                                suscripción app.
+                            </p>
+                        </div>
+
+                        <div class="value-mini-card"
+                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                                <h5
+                                    style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">
+                                    Performance (Ads)</h5>
+                                <span style="font-size: 1.2rem; color: #D9A74A; font-weight: 800;">25%</span>
+                            </div>
+                            <div
+                                style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                <div style="width: 25%; background: #D9A74A; height: 100%;"></div>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
+                                Pauta digital segmentada en Meta Ads dirigida a audiencias con intereses ECO e
+                                ingredientes naturales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="segment-b2b" class="segment-view">
+                <div class="profile-summary-card">
+                    <span class="profile-badge">B2B</span>
+                    <h3>Hoteles & Spas Boutique</h3>
+                    <p style="font-size:0.9rem; color:var(--texto-suave);">Centros premium que requieren amenidades de
+                        alta gama libres de empaques desechables.</p>
+                </div>
+                <div class="profile-detail-card">
+                    <h4>Elena, 38 años (Eco-Resort)</h4>
+                    <div class="quote-block">"Nuestros huéspedes de lujo exigen coherencia absoluta con nuestra
+                        filosofía carbono neutro."</div>
+                </div>
+                
+                <div style="width: 100%; flex: 1 1 100%; margin-top: 30px;">
+                    <h4 style="font-size: 1rem; margin: 0 0 15px 0; color: var(--verde-oscuro); font-family: var(--fuente-titulos); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Distribución de Canales de Adquisición
+                    </h4>
+                    <div class="values-row" style="margin-top: 0; gap: 15px; display: flex; width: 100%; overflow: auto;">
+                        <div class="value-mini-card" style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                                <h5 style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">Contenido Orgánico</h5>
+                                <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">45%</span>
+                            </div>
+                            <div style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                <div style="width: 45%; background: var(--verde-oliva); height: 100%;"></div>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
+                                Estrategia de contenidos en TikTok enfocada en el estilo de vida sustentable y frescura botánica.
+                            </p>
+                        </div>
+
+                        <div class="value-mini-card" style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                                <h5 style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">Programa de Referidos</h5>
+                                <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">30%</span>
+                            </div>
+                            <div style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                <div style="width: 30%; background: var(--verde-oliva); height: 100%;"></div>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
+                                Crecimiento orgánico voz a voz mediante incentivos y beneficios cruzados en la suscripción app.
+                            </p>
+                        </div>
+
+                        <div class="value-mini-card" style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
+                                <h5 style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">Performance (Ads)</h5>
+                                <span style="font-size: 1.2rem; color: #D9A74A; font-weight: 800;">25%</span>
+                            </div>
+                            <div style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                <div style="width: 25%; background: #D9A74A; height: 100%;"></div>
+                            </div>
+                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
+                                Pauta digital segmentada en Meta Ads dirigida a audiencias con intereses ECO e ingredientes naturales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPETENCIA -->
+        <section id="competencia" class="brief-section">
+            <div class="section-header">
+                <h2>5. Análisis Competitivo</h2>
+                <p>Estrategia de diferenciación frente a modelos masivos y convencionales.</p>
+            </div>
+            <div class="table-wrapper">
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Cosmética Masiva</th>
+                            <th>Marcas Artesanales</th>
+                            <th class="brand-highlight">Origen Herbal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Fórmulas</strong></td>
+                            <td>Sintéticas y parabenos</td>
+                            <td>Naturales inestables</td>
+                            <td class="brand-highlight"
+                                title="Estabilidad microbiológica garantizada mediante envasado al vacío en frío.">
+                                Botánica fresca en lotes pequeños</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Empaque</strong></td>
+                            <td>Plásticos PET tradicionales</td>
+                            <td>Vidrio genérico pesado</td>
+                            <td class="brand-highlight"
+                                title="Aluminio 100% infinitamente reciclable con recolección programada en suscripción.">
+                                Aluminio con logística inversa</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modelo</strong></td>
+                            <td>Transaccional único</td>
+                            <td>Ferias esporádicas</td>
+                            <td class="brand-highlight"
+                                title="Previsibilidad de inventario gracias al modelo de entrega automatizada recurrente.">
+                                Catálogo digital de productos circulares</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SCRIPT -->
+    <script>
+        function switchSection(sectionId, element) {
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            document.querySelectorAll('.brief-section').forEach(sec => sec.classList.remove('active-section'));
+            document.getElementById(sectionId).classList.add('active-section');
+
+            if (window.innerWidth < 992) { toggleMobileMenu(); }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        const teamData = {
+            ceo: { label: "Fundador", title: "Ronald S. Ledesma De La Cruz", resp: "Definir la visión estratégica, alianzas comerciales de alto nivel, levantamiento de capital orgánico y coordinación general.", perfil: "Liderazgo empático, visión de negocio verde, experiencia en startups del sector digital o sustentable." },
+            cpo: { label: "Diseño & Experiencia", title: "Mateo Bermúdez Ramos", resp: "Garantizar que cada punto de contacto web evoque un viaje sensorial y mantenga una usabilidad móvil intuitiva impecable.", perfil: "Diseñador Senior UI/UX con sensibilidad por marcas minimalistas limpias." },
+            cto: { label: "Arquitectura Técnica", title: "Santiago Torres Restrepo", resp: "Estructurar código limpio y escalable en JavaScript nativo, velar por la seguridad de los datos y optimizar cargas.", perfil: "Ingeniero Full-Stack experto en optimización de rendimiento y arquitecturas web ágiles." }
+        };
+
+        function showTeamDetail(memberKey, element) {
+            document.querySelectorAll('.team-tab-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            document.getElementById('team-label').innerText = teamData[memberKey].label;
+            document.getElementById('team-title').innerText = teamData[memberKey].title;
+            document.getElementById('team-resp').innerText = teamData[memberKey].resp;
+            document.getElementById('team-perfil').innerText = teamData[memberKey].perfil;
+        }
+
+        function switchSegmentView(viewType, element) {
+            document.querySelectorAll('.segment-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            if (viewType === 'b2c') {
+                document.getElementById('segment-b2c').classList.add('active-view');
+                document.getElementById('segment-b2b').classList.remove('active-view');
+            } else {
+                document.getElementById('segment-b2b').classList.add('active-view');
+                document.getElementById('segment-b2c').classList.remove('active-view');
+            }
+        }
+
+        function calcularImpacto() {
+            const suscriptores = parseInt(document.getElementById('input-suscriptores').value) || 0;
+            const botellasEvitadas = suscriptores * 12;
+            const co2Reducido = (botellasEvitadas * 0.03).toFixed(1);
+
+            document.getElementById('impacto-botellas').innerText = botellasEvitadas.toLocaleString('es-CO');
+            document.getElementById('impacto-co2').innerText = `${co2Reducido} kg`;
+        }
+    </script>
+</body>
+
+</html>
