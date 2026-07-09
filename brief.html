@@ -517,6 +517,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.04);
             font-size: 0.85rem;
             color: var(--texto-suave);
+            line-height: 1.4;
         }
 
         .brand-highlight {
@@ -526,14 +527,13 @@
             transition: background-color 0.2s ease, color 0.2s ease;
         }
 
-        /* Transición limpia al explorar el análisis competitivo */
         td.brand-highlight:hover {
             background-color: var(--verde-oscuro);
             color: var(--blanco) !important;
             cursor: help;
         }
 
-        /* --- TARJETAS VALORES --- */
+        /* --- TARJETAS VALORES Y HISTORIA --- */
         .values-row {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -560,7 +560,7 @@
             color: var(--texto-suave);
         }
 
-        /* --- TARJETAS PRODUCTOS (ANTES PRECIOS) --- */
+        /* --- TARJETAS PRODUCTOS --- */
         .pricing-grid {
             display: flex;
             flex-direction: column;
@@ -620,10 +620,9 @@
             margin-top: 15px;
         }
 
-        /* Contenedor de imagen interna del producto */
         .product-img-container {
-            width: 100%;
-            height: 140px;
+            width: 260px;
+            height: 290px;
             background-color: var(--arena);
             border-radius: 6px;
             margin-bottom: 15px;
@@ -636,13 +635,12 @@
 
         .product-img-container img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
             opacity: 0.9;
         }
 
-
-        /* --- MEDIA QUERIES PARA PANTALLAS GRANDES (ESCRITORIO) --- */
+        /* --- MEDIA QUERIES PARA PANTALLAS GRANDES --- */
         @media (min-width: 992px) {
             body {
                 flex-direction: row;
@@ -709,7 +707,7 @@
             }
         }
 
-        /* --- ESTILOS DE IMPRESIÓN REORGANIZADOS PARA EXPORTACIÓN A PDF --- */
+        /* --- ESTILOS DE IMPRESIÓN --- */
         @media print {
             body {
                 background: #FFFFFF !important;
@@ -791,21 +789,6 @@
             .interactive-team-container {
                 display: block !important;
             }
-
-            .team-detail-panel::after {
-                display: block;
-                content: "\A\A --------------------------------------------------\A\A DISEÑO & EXPERIENCIA\A Mateo Bermúdez Ramos\A\A Responsabilidades Clave:\A Garantizar que cada punto de contacto web evoque un viaje sensorial y mantenga una usabilidad móvil intuitiva impecable.\A\A Perfil del Miembro:\A Diseñador Senior UI/UX con sensibilidad por marcas minimalistas limpias.\A\A\A --------------------------------------------------\A\A ARQUITECTURA TÉCNICA\A Santiago Torres Restrepo\A\A Responsabilidades Clave:\A Estructurar código limpio y escalable en JavaScript nativo, velar por la seguridad de los datos y optimizar cargas.\A\A Perfil del Miembro:\A Ingeniero Full-Stack experto en optimización de rendimiento y arquitecturas web ágiles.";
-                white-space: pre-wrap;
-                font-family: 'Plus Jakarta Sans', sans-serif;
-                font-size: 0.9rem;
-                color: #1A241E;
-                margin-top: 20px;
-                line-height: 1.5;
-            }
-        }
-
-        .print-only {
-            display: none !important;
         }
     </style>
 </head>
@@ -815,8 +798,7 @@
     <!-- CABECERA MÓVIL -->
     <div class="mobile-header">
         <div class="logo-area" style="margin-bottom: 0; padding-left: 0;">
-            <img src="logo.png" alt="Logo Origen Herbal"
-                class="logo-img">
+            <img src="logo.png" alt="Logo Origen Herbal" class="logo-img">
             <div class="logo-text">
                 Origen Herbal
                 <span>Brief de Negocio</span>
@@ -827,8 +809,7 @@
     <!-- MENÚ LATERAL -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-area">
-            <img src="logo.png" alt="Logo Origen Herbal"
-                class="logo-img">
+            <img src="logo.png" alt="Logo Origen Herbal" class="logo-img">
             <div class="logo-text">
                 Origen Herbal
                 <span>Brief Corporativo</span>
@@ -960,53 +941,6 @@
                     </div>
                 </div>
             </div>
-
-            <h3 style="font-size: 1.2rem; margin: 35px 0 20px 0;" hidden>Hoja de Ruta del Proyecto (Roadmap 2026)</h3>
-            <div
-                style="display: none; flex-direction: column; gap: 15px; position: relative; padding-left: 20px; border-left: 2px solid var(--verde-claro);">
-
-                <!-- Hito 1 -->
-                <div style="position: relative; margin-bottom: 5px;">
-                    <div
-                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--verde-oliva); border: 2px solid var(--blanco);">
-                    </div>
-                    <span
-                        style="font-size: 0.75rem; font-weight: 700; color: var(--verde-oliva); text-transform: uppercase;">Q1
-                        2026 — Completado</span>
-                    <h4 style="font-size: 0.95rem; margin: 2px 0; color: var(--texto-oscuro);">Ideación y Formulación
-                        Química Base</h4>
-                    <p style="font-size: 0.85rem; color: var(--texto-suave);">Validación de proveedores locales, testeo
-                        de estabilidad de fórmulas botánicas frescas y maquetación de la arquitectura de la app.</p>
-                </div>
-
-                <!-- Hito 2 -->
-                <div style="position: relative; margin-bottom: 5px;">
-                    <div
-                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #D9A74A; border: 2px solid var(--blanco);">
-                    </div>
-                    <span style="font-size: 0.75rem; font-weight: 700; color: #D9A74A; text-transform: uppercase;">Q2
-                        2026 — En Desarrollo Activo</span>
-                    <h4 style="font-size: 0.95rem; margin: 2px 0; color: var(--texto-oscuro);">Desarrollo Técnico y
-                        Alianzas B2B</h4>
-                    <p style="font-size: 0.85rem; color: var(--texto-suave);">Construcción del sistema de suscripciones
-                        recurrentes, integración del Canvas interactivo y negociación de rutas de logística inversa.</p>
-                </div>
-
-                <!-- Hito 3 -->
-                <div style="position: relative;">
-                    <div
-                        style="position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--texto-suave); border: 2px solid var(--blanco);">
-                    </div>
-                    <span
-                        style="font-size: 0.75rem; font-weight: 700; color: var(--texto-suave); text-transform: uppercase;">Q3
-                        2026 — Próximo</span>
-                    <h4 style="font-size: 0.95rem; margin: 2px 0; color: var(--texto-oscuro);">Lanzamiento Beta y
-                        Campaña de Tracción</h4>
-                    <p style="font-size: 0.85rem; color: var(--texto-suave);">Apertura del canal digital para los
-                        primeros 200 usuarios beta, despliegue de la estrategia de contenidos en TikTok y medición del
-                        feedback operacional.</p>
-                </div>
-            </div>
         </section>
 
         <!-- INFORMACIÓN DEL EQUIPO DE TRABAJO -->
@@ -1077,64 +1011,59 @@
                         consciente.</p>
                 </div>
             </div>
+
             <h3 style="font-size: 1.2rem; margin: 25px 0 10px 0;">Nuestros Valores</h3>
             <div class="values-row">
                 <div class="value-mini-card">
-                    <h4>Transparencia</h4>
-                    <p>Ingredientes limpios e íntegros.</p>
+                    <h4>1. Pureza</h4>
+                    <p>Ingredientes limpios, íntegro origen botánico.</p>
                 </div>
                 <div class="value-mini-card">
-                    <h4>Reciprocidad</h4>
-                    <p>Respeto mutuo con la tierra.</p>
+                    <h4>2. Honestidad</h4>
+                    <p>Transparencia absoluta en procesos y fórmulas.</p>
                 </div>
                 <div class="value-mini-card">
-                    <h4>Co-creación</h4>
-                    <p>Fórmulas validadas en comunidad.</p>
+                    <h4>3. Cuidado consciente</h4>
+                    <p>Respeto a los ritmos naturales del cuerpo y planeta.</p>
                 </div>
                 <div class="value-mini-card">
-                    <h4>Circularidad</h4>
-                    <p>Logística sin residuos basura.</p>
+                    <h4>4. Artesanía</h4>
+                    <p>Producción dedicada y meticulosa en lotes frescos.</p>
+                </div>
+                <div class="value-mini-card">
+                    <h4>5. Confianza</h4>
+                    <p>Respaldo mutuo y validación con la comunidad.</p>
+                </div>
+                <div class="value-mini-card">
+                    <h4>6. Sostenibilidad</h4>
+                    <p>Logística y ciclos circulares libres de residuos.</p>
+                </div>
+                <div class="value-mini-card">
+                    <h4>7. Educación</h4>
+                    <p>Fomento de hábitos responsables e informados.</p>
                 </div>
             </div>
 
-            <h3 style="font-size: 1.2rem; margin: 35px 0 15px 0;">Matriz de Gestión de Riesgos Estratégicos</h3>
+            <!-- HISTORIA DEL EMPRENDIMIENTO -->
+            <h3 style="font-size: 1.2rem; margin: 35px 0 15px 0;">Nuestra Historia</h3>
             <div class="profile-summary-card"
-                style="background: var(--blanco); padding: 0; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
-                <table class="comp-table" style="margin: 0; width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background: var(--arena);">
-                            <th
-                                style="padding: 12px; text-align: left; font-size: 0.85rem; color: var(--verde-oscuro);">
-                                Riesgo Identificado</th>
-                            <th
-                                style="padding: 12px; text-align: left; font-size: 0.85rem; color: var(--verde-oscuro);">
-                                Impacto</th>
-                            <th
-                                style="padding: 12px; text-align: left; font-size: 0.85rem; color: var(--verde-oscuro);">
-                                Estrategia de Mitigación</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding: 12px; font-size: 0.85rem;"><strong>Quiebre de stock de insumos
-                                    locales</strong></td>
-                            <td style="padding: 12px; font-size: 0.85rem;"><span
-                                    style="color: #D9A74A; font-weight: 600;">Medio</span></td>
-                            <td style="padding: 12px; font-size: 0.85rem; color: var(--texto-suave);">Desarrollo de una
-                                red de co-proveedores en el Valle del Cauca y contratos de pre-compra de cultivos
-                                estacionales.</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; font-size: 0.85rem;"><strong>Baja tasa de retorno de envases
-                                    (Logística)</strong></td>
-                            <td style="padding: 12px; font-size: 0.85rem;"><span
-                                    style="color: #D9A74A; font-weight: 600;">Alto</span></td>
-                            <td style="padding: 12px; font-size: 0.85rem; color: var(--texto-suave);">Gamificación
-                                agresiva: el usuario recibe descuentos acumulativos directos en su suscripción por cada
-                                envase devuelto.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                style="background: var(--blanco); border-left: 4px solid var(--verde-oliva);">
+                <div class="quote-block" style="margin-bottom: 15px;">
+                    "El viaje de reconexión con la botánica viva y la eliminación de la huella plástica residual."
+                </div>
+                <p style="font-size: 0.9rem; color: var(--texto-suave); line-height: 1.6; margin-bottom: 12px;">
+                    Origen Herbal nació de una profunda inquietud compartida por sus fundadores ante el impacto
+                    ambiental desmedido de los envases plásticos de un solo uso en la industria del cuidado personal
+                    tradicional. Nos preguntamos si era posible crear un modelo donde la alta eficacia cosmética no
+                    exigiera sacrificar la salud del planeta.
+                </p>
+                <p style="font-size: 0.9rem; color: var(--texto-suave); line-height: 1.6;">
+                    Lo que comenzó como un pequeño laboratorio experimental de formulación botánica fresca en lotes
+                    controlados evolucionó rápidamente hacia una visión más ambiciosa: un ecosistema digital nativo
+                    (D2C) cimentado en la economía circular. Hoy, cada producto representa un pacto de respeto a los
+                    ritmos naturales y una alternativa real de logística inversa mediante empaques infinitamente
+                    reciclables.
+                </p>
             </div>
         </section>
 
@@ -1148,15 +1077,17 @@
                 <!-- Producto 1 -->
                 <div class="price-card">
                     <div class="product-img-container">
-                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=400&auto=format&fit=cover" alt="Suero Botánico Hidratante">
+                        <img src="shampoo.jpeg"
+                            alt="Shampoo">
                     </div>
-                    <h3>Suero Antioxidante</h3>
-                    <div class="cost">$24<span> / unidad</span></div>
+                    <h3>Shampoo</h3>
+                    <div class="cost">$35.000<span> / unidad</span></div>
                     <ul>
-                        <li>✓ 30ml de infusión botánica concentrada</li>
-                        <li>✓ Base de caléndula y extracto de aloe vera</li>
-                        <li>✓ Envase de aluminio hermético reutilizable</li>
-                        <li>✓ Retorno: -$3 en tu próxima compra</li>
+                        <li>✓ 750ml</li>
+                        <li>✓ Extratos de romero, canela, clavo y jengibre</li>
+                        <li>✓ Sin sal</li>
+                        <li>✓ controla la grasa desde la raíz</li>
+                        <li>✓ Aporta fuerza y un brillo espectacular</li>
                     </ul>
                 </div>
 
@@ -1164,31 +1095,33 @@
                 <div class="price-card featured">
                     <span class="featured-tag">Recomendado</span>
                     <div class="product-img-container">
-                        <img src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=400&auto=format&fit=cover" alt="Óleo Regenerador Facial">
+                        <img src="combo.jpeg"
+                            alt="Combo especial">
                     </div>
-                    <h3>Óleo Ritual Humano</h3>
-                    <div class="cost">$45<span> / unidad</span></div>
+                    <h3>Combo especial</h3>
+                    <div class="cost">$40.000<span> / unidad</span></div>
                     <ul>
-                        <li>✓ 50ml de elixir puro prensado en frío</li>
-                        <li>✓ Enriquecido con jojoba y aceites esenciales</li>
-                        <li>✓ Dosificador premium de alta durabilidad</li>
-                        <li>✓ Envío local prioritario gratis</li>
-                        <li>✓ Retorno: -$5 en tu próxima compra</li>
+                        <li>✓ Shampoo de 750ml</li>
+                        <li>✓ Tónico de 500ml</li>
+                        <li>✓ Oferta especial</li>
                     </ul>
                 </div>
 
                 <!-- Producto 3 -->
                 <div class="price-card">
                     <div class="product-img-container">
-                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400&auto=format&fit=cover" alt="Crema Sólida Alquimia">
+                        <img src="tonico-capilar.jpeg"
+                            alt="Tónico capilar">
                     </div>
-                    <h3>Bálsamo Alquimia Pro</h3>
-                    <div class="cost">$35<span> / unidad</span></div>
+                    <h3>Tónico capilar</h3>
+                    <div class="cost">$15.000<span> / unidad</span></div>
                     <ul>
-                        <li>✓ 80g de emulsión sólida regeneradora</li>
-                        <li>✓ Manteca de cacao pura y extractos botánicos</li>
-                        <li>✓ Cero desperdicio, 100% biodegradable</li>
-                        <li>✓ Retorno: -$4 en tu próxima compra</li>
+                        <li>✓ 500ml</li>
+                        <li>✓ linaza, romero, clavo, canela,</li>
+                        <li>✓ Jengibre, guácimo, hoja de guayabo y quina</li>
+                        <li>✓ Fortalecer la fibra capilar</li>
+                        <li>✓ Estimula el crecimiento</li>
+                        <li>✓ mantiene saludable desde la raíz</li>
                     </ul>
                 </div>
             </div>
@@ -1197,13 +1130,15 @@
             <div class="profile-summary-card"
                 style="background: var(--arena); border-left: 4px solid var(--verde-oliva);">
                 <p style="font-size: 0.9rem; color: var(--texto-oscuro); margin-bottom: 15px; font-weight: 500;">
-                    Si alcanzamos nuestra meta de compradores mensuales que consumen y retornan envases, ¿cuánto plástico le evitaremos al planeta?
+                    Si alcanzamos nuestra meta de compradores mensuales que consumen y retornan envases, ¿cuánto
+                    plástico le evitaremos al planeta?
                 </p>
                 <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
                     <input type="number" id="input-suscriptores" value="500" min="10" step="50"
                         oninput="calcularImpacto()"
                         style="padding: 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; width: 120px; font-family: var(--fuente-cuerpo); font-size: 1rem; font-weight: 600; color: var(--verde-oscuro);">
-                    <span style="font-size: 0.9rem; color: var(--texto-suave); font-weight: 600;">Compradores recurrentes</span>
+                    <span style="font-size: 0.9rem; color: var(--texto-suave); font-weight: 600;">Compradores
+                        recurrentes</span>
                 </div>
                 <div class="metrics-grid" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
                     <div style="background:var(--blanco); padding:12px; border-radius:6px; text-align:center;">
@@ -1220,40 +1155,6 @@
                         <h4 id="impacto-co2" style="font-size:1.6rem; color:var(--verde-oscuro); margin-top:4px;">180 kg
                         </h4>
                     </div>
-                </div>
-            </div>
-
-            <h3 style="font-size: 1.2rem; margin: 30px 0 15px 0;" hidden>Proyección Financiera Recurrente (Venta Cruzada y Recompras)</h3>
-            <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr); gap: 15px; display: none;">
-                <div
-                    style="background: var(--arena); padding: 15px; border-radius: 8px; border-left: 3px solid var(--verde-oliva);">
-                    <span
-                        style="font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; font-weight: 600; display: block;">MRR
-                        Estimado (Mes 3)</span>
-                    <h4 style="font-size: 1.4rem; color: var(--verde-oscuro); margin-top: 5px; font-weight: 700;">$7,500
-                        USD</h4>
-                    <p style="font-size: 0.75rem; color: var(--verde-oliva); margin-top: 4px; font-weight: 500;">~150
-                        usuarios activos</p>
-                </div>
-                <div
-                    style="background: var(--arena); padding: 15px; border-radius: 8px; border-left: 3px solid var(--verde-oliva);">
-                    <span
-                        style="font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; font-weight: 600; display: block;">LTV
-                        Promedio</span>
-                    <h4 style="font-size: 1.4rem; color: var(--verde-oscuro); margin-top: 5px; font-weight: 700;">$180
-                        USD</h4>
-                    <p style="font-size: 0.75rem; color: var(--texto-suave); margin-top: 4px;">Ciclo prom: 6 meses
-                    </p>
-                </div>
-                <div
-                    style="background: var(--arena); padding: 15px; border-radius: 8px; border-left: 3px solid #D9A74A;">
-                    <span
-                        style="font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; font-weight: 600; display: block;">Costo
-                        de Adquisición (CAC)</span>
-                    <h4 style="font-size: 1.4rem; color: var(--verde-oscuro); margin-top: 5px; font-weight: 700;">$15
-                        USD</h4>
-                    <p style="font-size: 0.75rem; color: #D9A74A; margin-top: 4px; font-weight: 500;">Ratio LTV/CAC: 12x
-                    </p>
                 </div>
             </div>
         </section>
@@ -1273,8 +1174,9 @@
                 <div class="profile-summary-card">
                     <span class="profile-badge">B2C</span>
                     <h3>Consumidor Consciente</h3>
-                    <p style="font-size:0.9rem; color:var(--texto-suave);">Urbano, 20 a 45 años, prioriza la salud
-                        limpia y la sostenibilidad real en su rutina diaria.</p>
+                    <p style="font-size:0.9rem; color:var(--texto-suave);">Mujeres entre 20 y 60 años,Personas con caída
+                        del cabello, resequedad,Consumidores interesados en productos naturales, Clientes que compran
+                        por redes sociales, Personas que valoran la asesoría personalizada.</p>
                 </div>
                 <div class="profile-detail-card">
                     <h4>Mateo, 26 años (Activista)</h4>
@@ -1287,7 +1189,8 @@
                         style="font-size: 1rem; margin: 0 0 15px 0; color: var(--verde-oscuro); font-family: var(--fuente-titulos); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
                         Distribución de Canales de Adquisición
                     </h4>
-                    <div class="values-row" style="margin-top: 0; gap: 15px; display: flex; width: 100%; overflow: auto;">
+                    <div class="values-row"
+                        style="margin-top: 0; gap: 15px; display: flex; width: 100%; overflow: auto;">
                         <div class="value-mini-card"
                             style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
                             <div
@@ -1360,52 +1263,6 @@
                     <div class="quote-block">"Nuestros huéspedes de lujo exigen coherencia absoluta con nuestra
                         filosofía carbono neutro."</div>
                 </div>
-                
-                <div style="width: 100%; flex: 1 1 100%; margin-top: 30px;">
-                    <h4 style="font-size: 1rem; margin: 0 0 15px 0; color: var(--verde-oscuro); font-family: var(--fuente-titulos); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Distribución de Canales de Adquisición
-                    </h4>
-                    <div class="values-row" style="margin-top: 0; gap: 15px; display: flex; width: 100%; overflow: auto;">
-                        <div class="value-mini-card" style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
-                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
-                                <h5 style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">Contenido Orgánico</h5>
-                                <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">45%</span>
-                            </div>
-                            <div style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
-                                <div style="width: 45%; background: var(--verde-oliva); height: 100%;"></div>
-                            </div>
-                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
-                                Estrategia de contenidos en TikTok enfocada en el estilo de vida sustentable y frescura botánica.
-                            </p>
-                        </div>
-
-                        <div class="value-mini-card" style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
-                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
-                                <h5 style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">Programa de Referidos</h5>
-                                <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">30%</span>
-                            </div>
-                            <div style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
-                                <div style="width: 30%; background: var(--verde-oliva); height: 100%;"></div>
-                            </div>
-                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
-                                Crecimiento orgánico voz a voz mediante incentivos y beneficios cruzados en la suscripción app.
-                            </p>
-                        </div>
-
-                        <div class="value-mini-card" style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
-                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
-                                <h5 style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">Performance (Ads)</h5>
-                                <span style="font-size: 1.2rem; color: #D9A74A; font-weight: 800;">25%</span>
-                            </div>
-                            <div style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
-                                <div style="width: 25%; background: #D9A74A; height: 100%;"></div>
-                            </div>
-                            <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
-                                Pauta digital segmentada en Meta Ads dirigida a audiencias con intereses ECO e ingredientes naturales.
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -1413,13 +1270,14 @@
         <section id="competencia" class="brief-section">
             <div class="section-header">
                 <h2>5. Análisis Competitivo</h2>
-                <p>Estrategia de diferenciación frente a modelos masivos y convencionales.</p>
+                <p>Estrategia de diferenciación basada en las métricas y criterios clave del sector cosmético y digital.
+                </p>
             </div>
             <div class="table-wrapper">
                 <table class="comp-table">
                     <thead>
                         <tr>
-                            <th>Criterio</th>
+                            <th>Criterios a analizar</th>
                             <th>Cosmética Masiva</th>
                             <th>Marcas Artesanales</th>
                             <th class="brand-highlight">Origen Herbal</th>
@@ -1427,28 +1285,62 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Fórmulas</strong></td>
-                            <td>Sintéticas y parabenos</td>
-                            <td>Naturales inestables</td>
-                            <td class="brand-highlight"
-                                title="Estabilidad microbiológica garantizada mediante envasado al vacío en frío.">
-                                Botánica fresca en lotes pequeños</td>
+                            <td><strong>Calidad de los ingredientes</strong></td>
+                            <td>Sintéticos, sulfatos, parabenos y derivados del petróleo de bajo costo.</td>
+                            <td>Fórmulas 100% naturales pero con baja estabilidad microbiológica.</td>
+                            <td class="brand-highlight" title="Pureza botánica controlada científicamente en frío.">
+                                Botánica fresca, limpia y microbiológicamente segura en lotes controlados.</td>
                         </tr>
                         <tr>
-                            <td><strong>Empaque</strong></td>
-                            <td>Plásticos PET tradicionales</td>
-                            <td>Vidrio genérico pesado</td>
+                            <td><strong>Precio</strong></td>
+                            <td>Muy económicos, pero con nula relación de valor ético o ambiental.</td>
+                            <td>Precios medios a altos, justificados únicamente por la mano de obra.</td>
                             <td class="brand-highlight"
-                                title="Aluminio 100% infinitamente reciclable con recolección programada en suscripción.">
-                                Aluminio con logística inversa</td>
+                                title="Alta competitividad por el sistema circular de incentivos.">Excelente relación
+                                calidad/precio gracias a descuentos por retorno de envases.</td>
                         </tr>
                         <tr>
-                            <td><strong>Modelo</strong></td>
-                            <td>Transaccional único</td>
-                            <td>Ferias esporádicas</td>
+                            <td><strong>Presentación</strong></td>
+                            <td>Envases plásticos PET monótonos con etiquetas genéricas de gran volumen.</td>
+                            <td>Frascos de vidrio pesados, etiquetas de papel con diseño básico artesanal.</td>
                             <td class="brand-highlight"
-                                title="Previsibilidad de inventario gracias al modelo de entrega automatizada recurrente.">
-                                Catálogo digital de productos circulares</td>
+                                title="Estética minimalista sofisticada y ecológica de aluminio.">Estética premium
+                                minimalista en aluminio retornable, ultra-ligera e infinitamente reciclable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Atención al cliente</strong></td>
+                            <td>Automatización fría y respuestas masivas lentas pre/post venta.</td>
+                            <td>Atención amable e individualizada, pero con demoras por falta de personal.</td>
+                            <td class="brand-highlight" title="Soporte digital ágil e integrado.">Asesoría personalizada
+                                instantánea pre-compra y seguimiento automatizado post-retorno.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Presencia digital</strong></td>
+                            <td>Pauta publicitaria agresiva pero con escasa interacción comunitaria orgánica.</td>
+                            <td>Publicaciones esporádicas e informales; contenido visual de calidad variable.</td>
+                            <td class="brand-highlight" title="Ecosistema nativo digital dinámico.">Estrategia orgánica
+                                intensa (TikTok/Reels), alta interacción y contenido educativo de valor.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Variedad del portafolio</strong></td>
+                            <td>Portafolio masivo con cientos de referencias repetitivas.</td>
+                            <td>Catálogos reducidos, limitados por ciclos de producción manual.</td>
+                            <td class="brand-highlight" title="Esencialismo eficiente en portafolio.">Portafolio
+                                esencial y especializado, optimizado para evitar desperdicio de stock.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Opiniones del cliente</strong></td>
+                            <td>Quejas recurrentes sobre químicos agresivos y residuos plásticos sobrantes.</td>
+                            <td>Reseñas positivas de lealtad, mezcladas con quejas por problemas de stock.</td>
+                            <td class="brand-highlight" title="Validación y fidelidad de la comunidad.">Puntuaciones
+                                sobresalientes enfocadas en frescura cutánea y orgullo por la meta residuo cero.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propuesta de valor</strong></td>
+                            <td>Accesibilidad y disponibilidad masiva inmediata en retail tradicional.</td>
+                            <td>Exclusividad local y procesos netamente familiares o tradicionales.</td>
+                            <td class="brand-highlight" title="Economía circular nativa D2C.">Cuidado botánico de alta
+                                eficacia bajo un modelo de economía circular real y nativa digital.</td>
                         </tr>
                     </tbody>
                 </table>
