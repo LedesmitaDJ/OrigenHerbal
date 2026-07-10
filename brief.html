@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brief de Negocio | Origen Herbal</title>
-    <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Iconos de Google (Material Symbols Outlined) -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
@@ -385,6 +383,11 @@
             border: 1px solid rgba(0, 0, 0, 0.04);
         }
 
+        /* Bloque oculto por defecto que solo se renderizará en el PDF de impresión */
+        .print-only-team-list {
+            display: none;
+        }
+
         .panel-label {
             color: var(--verde-oliva);
             font-size: 0.75rem;
@@ -413,6 +416,7 @@
         .detail-block p {
             color: var(--texto-suave);
             font-size: 0.9rem;
+            white-space: pre-line;
         }
 
         /* --- SEGMENTACIÓN TABS --- */
@@ -615,7 +619,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            font-size: 0.8rem;
+            font-size: 0.8·rem;
             color: var(--texto-suave);
             margin-top: 15px;
         }
@@ -721,8 +725,24 @@
             .sidebar-overlay,
             .btn-row,
             .segment-toggle-bar,
-            .team-tabs {
+            .team-tabs,
+            .team-detail-panel,
+            #creditos {
                 display: none !important;
+            }
+
+            /* Hacemos visible la lista completa de todos los miembros exclusivamente en la impresión */
+            .print-only-team-list {
+                display: block !important;
+            }
+
+            .print-member-card {
+                page-break-inside: avoid !important;
+                border: 1px solid #DDDDDD !important;
+                padding: 20px !important;
+                margin-bottom: 20px !important;
+                border-radius: 10px !important;
+                background: #FFFFFF !important;
             }
 
             .main-content {
@@ -763,8 +783,7 @@
             .profile-summary-card,
             .profile-detail-card,
             .value-mini-card,
-            .price-card,
-            .team-detail-panel {
+            .price-card {
                 page-break-inside: avoid !important;
                 border: 1px solid #DDDDDD !important;
                 margin-bottom: 20px !important;
@@ -795,7 +814,6 @@
 
 <body>
 
-    <!-- CABECERA MÓVIL -->
     <div class="mobile-header">
         <div class="logo-area" style="margin-bottom: 0; padding-left: 0;">
             <img src="logo.png" alt="Logo Origen Herbal" class="logo-img">
@@ -806,7 +824,6 @@
         </div>
     </div>
 
-    <!-- MENÚ LATERAL -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-area">
             <img src="logo.png" alt="Logo Origen Herbal" class="logo-img">
@@ -853,20 +870,23 @@
                     Análisis Competitivo
                 </a>
             </li>
+            <li class="menu-item" onclick="switchSection('creditos', this)">
+                <a href="#creditos">
+                    <span class="material-symbols-outlined menu-icon">code</span>
+                    Desarrollador
+                </a>
+            </li>
         </ul>
     </aside>
 
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileMenu()"></div>
 
-    <!-- BOTÓN MÓVIL -->
     <button class="menu-toggle-btn" onclick="toggleMobileMenu()">
         <span class="material-symbols-outlined" style="color: white;">menu</span>
     </button>
 
-    <!-- CONTENIDO -->
     <main class="main-content">
 
-        <!-- RESUMEN GENERAL -->
         <section id="resumen" class="brief-section active-section">
             <div class="hero-card">
                 <h1>Modelando el futuro de la cosmética viva y natural</h1>
@@ -894,7 +914,7 @@
                 </div>
                 <div class="metric-card"><span>Audiencia objetivo</span>
                     <h3>Conscientes</h3>
-                    <p>Millennials / Gen Z</p>
+                    <p>Millennials / Gen Z/Y/X</p>
                 </div>
                 <div class="metric-card"><span>Diferenciador</span>
                     <h3>Circular</h3>
@@ -943,7 +963,6 @@
             </div>
         </section>
 
-        <!-- INFORMACIÓN DEL EQUIPO DE TRABAJO -->
         <section id="equipo" class="brief-section">
             <div class="section-header">
                 <h2>1. Información del Equipo de Trabajo</h2>
@@ -951,47 +970,76 @@
             </div>
             <div class="interactive-team-container">
                 <div class="team-tabs">
-                    <div class="team-tab-btn active" onclick="showTeamDetail('ceo', this)">
+                    <div class="team-tab-btn active" onclick="showTeamDetail('direccion', this)">
                         <div class="tab-meta">
-                            <h4>Ronald S. Ledesma De La Cruz</h4>
-                            <p>Director de Proyecto / CEO</p>
+                            <h4>Dirección General</h4>
+                            <p>Alejandra Q.</p>
                         </div>
-                        <span class="tab-badge">CEO</span>
+                        <span class="tab-badge">Estrategia</span>
                     </div>
-                    <div class="team-tab-btn" onclick="showTeamDetail('cpo', this)">
+                    <div class="team-tab-btn" onclick="showTeamDetail('marketing', this)">
                         <div class="tab-meta">
-                            <h4>Mateo Bermúdez Ramos</h4>
-                            <p>Director de Producto & UX</p>
+                            <h4>Marketing Digital & Diseño</h4>
+                            <p>Ronald L. & Equipo</p>
                         </div>
-                        <span class="tab-badge">CPO</span>
+                        <span class="tab-badge">Crecimiento</span>
                     </div>
-                    <div class="team-tab-btn" onclick="showTeamDetail('cto', this)">
+                    <div class="team-tab-btn" onclick="showTeamDetail('quimica', this)">
                         <div class="tab-meta">
-                            <h4>Santiago Torres Restrepo</h4>
-                            <p>Director de Tecnología / CTO</p>
+                            <h4>I+D & Química</h4>
+                            <p>Sara Daniela Sabogal</p>
                         </div>
-                        <span class="tab-badge">CTO</span>
+                        <span class="tab-badge">Calidad</span>
+                    </div>
+                    <div class="team-tab-btn" onclick="showTeamDetail('operaciones', this)">
+                        <div class="tab-meta">
+                            <h4>Área Operativa</h4>
+                            <p>Andrea P., Beatriz S. & Martha S.</p>
+                        </div>
+                        <span class="tab-badge">Producción</span>
+                    </div>
+                    <div class="team-tab-btn" onclick="showTeamDetail('logistica', this)">
+                        <div class="tab-meta">
+                            <h4>Logística & Entregas</h4>
+                            <p>Claudia Q. & Brayan Melo</p>
+                        </div>
+                        <span class="tab-badge">Distribución</span>
+                    </div>
+                    <div class="team-tab-btn" onclick="showTeamDetail('comercial', this)">
+                        <div class="tab-meta">
+                            <h4>Comercial & Servicio</h4>
+                            <p>Laura Ruiz & Adrian Quimbay</p>
+                        </div>
+                        <span class="tab-badge">Ventas</span>
+                    </div>
+                    <div class="team-tab-btn" onclick="showTeamDetail('finanzas', this)">
+                        <div class="tab-meta">
+                            <h4>Contabilidad</h4>
+                            <p>Liliana Gómez</p>
+                        </div>
+                        <span class="tab-badge">Finanzas</span>
                     </div>
                 </div>
 
+                <!-- PANEL INTERACTIVO DE PANTALLA -->
                 <div class="team-detail-panel panel-ceo">
-                    <span class="panel-label" id="team-label">Fundador</span>
-                    <h3 id="team-title">Ronald S. Ledesma De La Cruz</h3>
+                    <span class="panel-label" id="team-label">Estrategia Corporativa</span>
+                    <h3 id="team-title">Dirección General</h3>
                     <div class="detail-block">
                         <h5>Responsabilidades Clave</h5>
-                        <p id="team-resp">Definir la visión estratégica, alianzas comerciales de alto nivel,
-                            levantamiento de capital orgánico y coordinación general.</p>
+                        <p id="team-resp"></p>
                     </div>
                     <div class="detail-block">
                         <h5>Perfil del Miembro</h5>
-                        <p id="team-perfil">Liderazgo empático, visión de negocio verde, experiencia en startups del
-                            sector digital o sustentable.</p>
+                        <p id="team-perfil"></p>
                     </div>
                 </div>
+
+                <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN/PDF (SE GENERA AUTOMÁTICAMENTE CON JS) -->
+                <div class="print-only-team-list" id="print-team-container"></div>
             </div>
         </section>
 
-        <!-- INFORMACIÓN DE LA EMPRESA -->
         <section id="empresa" class="brief-section">
             <div class="section-header">
                 <h2>2. Información de la Empresa</h2>
@@ -1044,13 +1092,9 @@
                 </div>
             </div>
 
-            <!-- HISTORIA DEL EMPRENDIMIENTO -->
             <h3 style="font-size: 1.2rem; margin: 35px 0 15px 0;">Nuestra Historia</h3>
             <div class="profile-summary-card"
                 style="background: var(--blanco); border-left: 4px solid var(--verde-oliva);">
-                <div class="quote-block" style="margin-bottom: 15px;" hidden>
-                    "El viaje de reconexión con la botánica viva y la eliminación de la huella plástica residual."
-                </div>
                 <p style="font-size: 0.9rem; color: var(--texto-suave); line-height: 1.6;">
                     La empresa Origen Herbal fue creada en julio del año 2025 como respuestaalanecesidad identificada en
                     el entorno cercano, donde familiares y conocidospresentaban problemas frecuentes de caída del
@@ -1061,14 +1105,12 @@
             </div>
         </section>
 
-        <!-- INFORMACIÓN COMERCIAL (PRODUCTOS) -->
         <section id="comercial" class="brief-section">
             <div class="section-header">
                 <h2>3. Información Comercial y Productos</h2>
                 <p>Portafolio exclusivo de productos de Origen Herbal con envase retornable.</p>
             </div>
             <div class="pricing-grid">
-                <!-- Producto 1 -->
                 <div class="price-card">
                     <div class="product-img-container">
                         <img src="shampoo.jpeg" alt="Shampoo">
@@ -1084,7 +1126,6 @@
                     </ul>
                 </div>
 
-                <!-- Producto 2 (Recomendado) -->
                 <div class="price-card featured">
                     <span class="featured-tag">Recomendado</span>
                     <div class="product-img-container">
@@ -1099,7 +1140,6 @@
                     </ul>
                 </div>
 
-                <!-- Producto 3 -->
                 <div class="price-card">
                     <div class="product-img-container">
                         <img src="tonico-capilar.jpeg" alt="Tónico capilar">
@@ -1150,7 +1190,6 @@
             </div>
         </section>
 
-        <!-- SEGMENTACIÓN DE MERCADOS -->
         <section id="segmentacion" class="brief-section">
             <div class="section-header">
                 <h2>4. Segmentación de Mercados</h2>
@@ -1257,7 +1296,6 @@
             </div>
         </section>
 
-        <!-- COMPETENCIA -->
         <section id="competencia" class="brief-section">
             <div class="section-header">
                 <h2>5. Análisis Competitivo</h2>
@@ -1338,9 +1376,41 @@
             </div>
         </section>
 
+        <section id="creditos" class="brief-section">
+            <div class="section-header">
+                <h2>Créditos de Desarrollo</h2>
+                <p>Información del especialista técnico a cargo del diseño y la arquitectura web del proyecto.</p>
+            </div>
+            
+            <div class="profile-summary-card" style="border-left: 4px solid var(--verde-oscuro); display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span class="material-symbols-outlined" style="font-size: 3rem; color: var(--verde-oliva);">terminal</span>
+                    <div>
+                        <h3 style="margin-bottom: 2px;">Ronald Stiven Ledesma De La Cruz</h3>
+                        <span class="profile-badge" style="margin-bottom: 0;">Técnico en Sistemas / Aprendiz SENA Técnico en Promoción de Contenidos en Medios Digitales</span>
+                    </div>
+                </div>
+                
+                <p style="font-size: 0.95rem; color: var(--texto-suave); line-height: 1.6;">
+                    Responsable del desarrollo del Brief interactivo, optimización del rendimiento en software base, adaptado por medio de CSS3 Grid/Flexbox, e integración de scripts dinámicos para la automatización y sincronización de datos de impresión y descarga PDF.
+                </p>
+                <p style="font-size: 0.95rem; color: var(--texto-suave); line-height: 1.6;">
+                    <strong>NOTA: </strong>La información del Brief fué suministrado por los compañeros del grupo de trabajo para la realizacion de la evidencia <strong>GA2-291301122-AA1-EV01</strong>.
+                </p>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px;">
+                    <a href="https://github.com/LedesmitaDJ/OrigenHerbal" target="_blank" class="action-btn" style="text-decoration: none; font-size: 0.8rem; padding: 8px 16px; background: var(--verde-oscuro); color: white;">
+                        <span class="material-symbols-outlined" style="font-size: 1.1rem;">deployed_code</span> Repositorio de GitHub
+                    </a>
+                    <a href="#" target="_blank" class="action-btn secondary" style="text-decoration: none; font-size: 0.8rem; padding: 8px 16px; color: var(--texto-oscuro); border-color: rgba(0,0,0,0.15);">
+                        <span class="material-symbols-outlined" style="font-size: 1.1rem;">download</span> Descargar Brief Completo
+                    </a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- SCRIPT -->
     <script>
         function switchSection(sectionId, element) {
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
@@ -1360,20 +1430,88 @@
             overlay.classList.toggle('active');
         }
 
+        // --- OBJETO CENTRAL DE BASE DE DATOS DEL EQUIPO ---
+        // ¡Cualquier cambio que realices aquí se verá en pantalla Y en el PDF automáticamente!
         const teamData = {
-            ceo: { label: "Fundador", title: "Ronald S. Ledesma De La Cruz", resp: "Definir la visión estratégica, alianzas comerciales de alto nivel, levantamiento de capital orgánico y coordinación general.", perfil: "Liderazgo empático, visión de negocio verde, experiencia en startups del sector digital o sustentable." },
-            cpo: { label: "Diseño & Experiencia", title: "Mateo Bermúdez Ramos", resp: "Garantizar que cada punto de contacto web evoque un viaje sensorial y mantenga una usabilidad móvil intuitiva impecable.", perfil: "Diseñador Senior UI/UX con sensibilidad por marcas minimalistas limpias." },
-            cto: { label: "Arquitectura Técnica", title: "Santiago Torres Restrepo", resp: "Estructurar código limpio y escalable en JavaScript nativo, velar por la seguridad de los datos y optimizar cargas.", perfil: "Ingeniero Full-Stack experto en optimización de rendimiento y arquitecturas web ágiles." }
+            direccion: { 
+                label: "Estrategia Corporativa", 
+                title: "Dirección General", 
+                resp: "• Alejandra Quimbay (Fundadora): Definición de la esencia de la marca, formulación filosófica inicial y dirección de identidad ética.", 
+                perfil: "Liderazgo empático, visión de negocio verde, y sólida experiencia en startups y entornos del sector digital sustentable." 
+            },
+            marketing: { 
+                label: "Crecimiento de Marca", 
+                title: "Marketing Digital & Desarrollo Visual", 
+                resp: "• Ronald Ledesma, Ingrid banesa Imbachi, Yazmin Constanza Paz (Equipo SENA): Diseño, implementación de la estrategia digital omnicanal, optimización de flujos conversacionales interactivos y promoción de contenidos sustentables.\n\n• Harol Silva (Diseño Gráfico): Creación de assets visuales, empaques premium minimalistas, etiquetas y línea editorial gráfica de Origen Herbal.", 
+                perfil: "Especialistas en la promoción de contenidos digitales y diseño conceptual aplicados a la cosmética circular." 
+            },
+            quimica: { 
+                label: "Investigación & Desarrollo", 
+                title: "Desarrollo Químico y Fórmulas", 
+                resp: "• Sara Daniela Sabogal: Supervisión y formulación microbiológica segura, testeo de estabilidad capilar de los activos de romero, jengibre, canela y quina, garantizando la pureza botánica en lotes frescos.", 
+                perfil: "Química experta en biocosmética, desarrollo orgánico y control microbiológico." 
+            },
+            operaciones: { 
+                label: "Cadena de Suministro", 
+                title: "Área de Operación y Production", 
+                resp: "• Andrea Peña, Beatriz Suárez, Martha Salamanca: Manufactura meticulosa de lotes en frío, envasado en los contenedores circulares de aluminio retornable y etiquetado artesanal de alta precisión.", 
+                perfil: "Personal técnico calificado con estrictos estándares de manufactura limpia y sostenible." 
+            },
+            logistica: { 
+                label: "Operaciones y Envíos", 
+                title: "Logística Administrativa & Distribución", 
+                resp: "• Claudia Consuelo Quimbay (Logística Administrativa): Administración de inventarios, control de flujo de envases retornados y gestión de compras de materia prima.\n\n• Brayan Melo Salamanca (Mensajería, Envío y Entrega): Despacho ágil, planeación de rutas locales de última milla y recolección logística de las botellas retornadas.", 
+                perfil: "Especialistas en logística inversa e infraestructuras de transporte residuo cero." 
+            },
+            comercial: { 
+                label: "Gestión Comercial", 
+                title: "Área Comercial & Servicio al Cliente", 
+                resp: "• Laura Valentina Ruiz (Área Comercial): Ejecución de metas de ventas, conversión de leads en e-commerce y desarrollo de alianzas con tiendas físicas eco-responsables.\n\n• Adrian Ricardo Quimbay (Servicio al Cliente): Asesoría personalizada instantánea pre-compra, seguimiento de satisfacción y gestión del programa automatizado post-retorno.", 
+                perfil: "Orientados al cliente, comunicación asertiva y fidelización bajo la cultura D2C (Direct-to-Consumer)." 
+            },
+            finanzas: { 
+                label: "Control de Recursos", 
+                title: "Contabilidad y Finanzas", 
+                resp: "• Liliana Gómez: Gestión financiera integral, balances de costos de manufactura, proyección de márgenes de ganancia con incentivos de retorno de envase y auditoría de egresos.", 
+                perfil: "Contadora con alta visión analítica aplicada al rendimiento financiero corporativo." 
+            }
         };
 
         function showTeamDetail(memberKey, element) {
-            document.querySelectorAll('.team-tab-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
+            if(element) {
+                document.querySelectorAll('.team-tab-btn').forEach(btn => btn.classList.remove('active'));
+                element.classList.add('active');
+            }
 
             document.getElementById('team-label').innerText = teamData[memberKey].label;
             document.getElementById('team-title').innerText = teamData[memberKey].title;
             document.getElementById('team-resp').innerText = teamData[memberKey].resp;
             document.getElementById('team-perfil').innerText = teamData[memberKey].perfil;
+        }
+
+        // --- NUEVA FUNCIÓN AUTOMÁTICA DE SINCRONIZACIÓN PARA PDF ---
+        function buildPrintTeamList() {
+            const container = document.getElementById('print-team-container');
+            let htmlContent = '';
+
+            for (const key in teamData) {
+                const member = teamData[key];
+                // Convertimos saltos de línea de texto (\n) a saltos HTML (<br>) de forma segura
+                const formattedResp = member.resp.replace(/\n/g, '<br>');
+                const formattedPerfil = member.perfil.replace(/\n/g, '<br>');
+
+                htmlContent += `
+                    <div class="print-member-card">
+                        <span class="panel-label">${member.label}</span>
+                        <h3>${member.title}</h3>
+                        <h5>Responsabilidades Clave</h5>
+                        <p>${formattedResp}</p>
+                        <h5>Perfil del Miembro</h5>
+                        <p>${formattedPerfil}</p>
+                    </div>
+                `;
+            }
+            container.innerHTML = htmlContent;
         }
 
         function switchSegmentView(viewType, element) {
@@ -1397,6 +1535,12 @@
             document.getElementById('impacto-botellas').innerText = botellasEvitadas.toLocaleString('es-CO');
             document.getElementById('impacto-co2').innerText = `${co2Reducido} kg`;
         }
+
+        // Inicializar vistas al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            showTeamDetail('direccion'); // Inicializa el panel interactivo en Dirección General
+            buildPrintTeamList();        // Genera la lista completa y actualizada para el PDF
+        });
     </script>
 </body>
 
