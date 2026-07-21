@@ -15,7 +15,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
     <style>
-        /* --- CONFIGURACIÓN BASE DEL DASHBOARD --- */
+        /* --- CONFIGURACIÓN BASE DEL DASHBOARD & VARIABLES --- */
         :root {
             --verde-oscuro: #2D4236;
             --verde-oliva: #4A6B53;
@@ -24,20 +24,40 @@
             --blanco: #FFFFFF;
             --texto-oscuro: #1A241E;
             --texto-suave: #606C64;
+            --bg-body: #FAFAFA;
+            --bg-card: #FFFFFF;
+            --border-color: rgba(0, 0, 0, 0.06);
+            --table-header-bg: #F9F9F9;
             --fuente-titulos: 'Playfair Display', serif;
             --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* --- VARIABLES MODO OSCURO --- */
+        [data-theme="dark"] {
+            --verde-oscuro: #1B2B21;
+            --verde-oliva: #618A6C;
+            --verde-claro: #A3B899;
+            --arena: #233128;
+            --blanco: #1B2620;
+            --bg-body: #121915;
+            --bg-card: #1B2620;
+            --texto-oscuro: #EBF0EC;
+            --texto-suave: #A5B3A9;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --table-header-bg: #16201A;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: var(--fuente-cuerpo);
             color: var(--texto-oscuro);
-            background-color: #FAFAFA;
+            background-color: var(--bg-body);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -51,16 +71,47 @@
             color: var(--verde-oscuro);
         }
 
+        [data-theme="dark"] h1,
+        [data-theme="dark"] h2,
+        [data-theme="dark"] h3,
+        [data-theme="dark"] h4 {
+            color: #C1D5C6;
+        }
+
         .material-symbols-outlined {
             display: inline-block;
             vertical-align: middle;
             user-select: none;
         }
 
+        /* --- BOTÓN TEMA (TOGGLE SWITCH) --- */
+        .theme-toggle-btn {
+            background: var(--arena);
+            border: 1px solid var(--border-color);
+            color: var(--texto-oscuro);
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: var(--fuente-cuerpo);
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--verde-oliva);
+            background-color: var(--border-color);
+        }
+
         /* --- HEADER MÓVIL --- */
         .mobile-header {
-            background-color: var(--blanco);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
@@ -70,12 +121,18 @@
             z-index: 101;
         }
 
+        .mobile-header .theme-toggle-btn {
+            width: auto;
+            border-radius: 20px;
+            padding: 6px 12px;
+        }
+
         /* --- BARRA LATERAL (SIDEBAR) --- */
         .sidebar {
             width: 100%;
             max-width: 280px;
-            background-color: var(--blanco);
-            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border-color);
             padding: 30px 20px;
             display: flex;
             flex-direction: column;
@@ -84,7 +141,8 @@
             bottom: 0;
             left: -100%;
             z-index: 200;
-            transition: left 0.3s ease;
+            transition: left 0.3s ease, background-color 0.3s ease;
+            height: 100vh;
         }
 
         .sidebar.open {
@@ -95,7 +153,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             padding-left: 5px;
         }
 
@@ -113,6 +171,10 @@
             line-height: 1.1;
         }
 
+        [data-theme="dark"] .logo-text {
+            color: #C1D5C6;
+        }
+
         .logo-text span {
             font-size: 0.75rem;
             display: block;
@@ -122,12 +184,21 @@
             margin-top: 2px;
         }
 
+        /* UMBRAL INFERIOR DE LA BARRA LATERAL PARA EL BOTÓN */
+        .sidebar-theme-container {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+
         /* --- MENÚ --- */
         .menu-list {
             list-style: none;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            overflow-y: auto;
         }
 
         .menu-item a {
@@ -154,9 +225,14 @@
             color: var(--verde-oscuro);
         }
 
+        [data-theme="dark"] .menu-item.active a,
+        [data-theme="dark"] .menu-item a:hover {
+            color: #EBF0EC;
+        }
+
         .menu-item.active a .menu-icon,
         .menu-item a:hover .menu-icon {
-            color: var(--verde-oscuro);
+            color: var(--verde-oliva);
         }
 
         /* --- BOTÓN FLOTANTE MÓVIL --- */
@@ -167,7 +243,7 @@
             width: 56px;
             height: 56px;
             background-color: var(--verde-oscuro);
-            color: var(--blanco);
+            color: #FFFFFF;
             border: none;
             border-radius: 50%;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -186,7 +262,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 199;
         }
 
@@ -241,22 +317,22 @@
 
         /* --- HERO CARD --- */
         .hero-card {
-            background-color: var(--verde-oscuro);
-            color: var(--blanco);
+            background-color: #2D4236;
+            color: #FFFFFF;
             padding: 30px 20px;
             border-radius: 12px;
             margin-bottom: 25px;
         }
 
         .hero-card h1 {
-            color: var(--blanco);
+            color: #FFFFFF !important;
             font-size: 1.8rem;
             line-height: 1.2;
             margin-bottom: 12px;
         }
 
         .hero-card p {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             font-size: 0.95rem;
             margin-bottom: 20px;
         }
@@ -272,8 +348,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background-color: var(--blanco);
-            color: var(--verde-oscuro);
+            background-color: #FFFFFF;
+            color: #2D4236;
             border: none;
             padding: 12px 20px;
             border-radius: 6px;
@@ -286,7 +362,7 @@
 
         .action-btn.secondary {
             background-color: rgba(255, 255, 255, 0.1);
-            color: var(--blanco);
+            color: #FFFFFF;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -302,10 +378,10 @@
         }
 
         .metric-card {
-            background: var(--blanco);
+            background: var(--bg-card);
             padding: 16px;
             border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
         }
 
         .metric-card span {
@@ -340,8 +416,8 @@
         }
 
         .team-tab-btn {
-            background: var(--blanco);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             padding: 16px;
             border-radius: 8px;
             display: flex;
@@ -376,14 +452,18 @@
             font-weight: 600;
         }
 
-        .team-detail-panel {
-            background: var(--blanco);
-            border-radius: 10px;
-            padding: 25px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+        [data-theme="dark"] .tab-badge {
+            background: rgba(255, 255, 255, 0.08);
+            color: #C1D5C6;
         }
 
-        /* Bloque oculto por defecto que solo se renderizará en el PDF de impresión */
+        .team-detail-panel {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+        }
+
         .print-only-team-list {
             display: none;
         }
@@ -419,39 +499,8 @@
             white-space: pre-line;
         }
 
-        /* --- SEGMENTACIÓN TABS --- */
-        .segment-toggle-bar {
-            display: flex;
-            gap: 8px;
-            background: #EEEEEE;
-            padding: 4px;
-            border-radius: 6px;
-            width: fit-content;
-            margin-bottom: 20px;
-        }
-
-        .segment-btn {
-            background: transparent;
-            border: none;
-            padding: 6px 16px;
-            font-family: var(--fuente-cuerpo);
-            font-weight: 600;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            color: var(--texto-suave);
-        }
-
-        .segment-btn.active {
-            background: var(--blanco);
-            color: var(--verde-oscuro);
-        }
-
+        /* --- SEGMENTACIÓN VISTAS --- */
         .segment-view {
-            display: none;
-        }
-
-        .segment-view.active-view {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -459,14 +508,14 @@
 
         .profile-summary-card,
         .profile-detail-card {
-            background: var(--blanco);
+            background: var(--bg-card);
             border-radius: 10px;
             padding: 25px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
         }
 
         .profile-badge {
-            background-color: rgba(74, 107, 83, 0.1);
+            background-color: rgba(74, 107, 83, 0.15);
             color: var(--verde-oliva);
             padding: 2px 8px;
             font-size: 0.75rem;
@@ -496,36 +545,36 @@
             width: 100%;
             overflow-x: auto;
             border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
         }
 
         .comp-table {
             width: 100%;
             border-collapse: collapse;
-            background: var(--blanco);
+            background: var(--bg-card);
             min-width: auto;
         }
 
         .comp-table th {
-            background: #F9F9F9;
+            background: var(--table-header-bg);
             padding: 14px 16px;
             text-align: left;
             font-size: 0.75rem;
             text-transform: uppercase;
             color: var(--texto-suave);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .comp-table td {
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            border-bottom: 1px solid var(--border-color);
             font-size: 0.85rem;
             color: var(--texto-suave);
             line-height: 1.4;
         }
 
         .brand-highlight {
-            background-color: rgba(247, 245, 240, 0.5);
+            background-color: var(--arena);
             color: var(--verde-oliva) !important;
             font-weight: 700;
             transition: background-color 0.2s ease, color 0.2s ease;
@@ -533,7 +582,7 @@
 
         td.brand-highlight:hover {
             background-color: var(--verde-oscuro);
-            color: var(--blanco) !important;
+            color: #FFFFFF !important;
             cursor: help;
         }
 
@@ -546,10 +595,10 @@
         }
 
         .value-mini-card {
-            background: var(--blanco);
+            background: var(--bg-card);
             padding: 16px;
             border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
         }
 
         .value-mini-card h4 {
@@ -572,15 +621,15 @@
         }
 
         .price-card {
-            background: var(--blanco);
+            background: var(--bg-card);
             border-radius: 10px;
             padding: 25px;
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
         }
 
         .price-card.featured {
             border-color: var(--verde-oliva);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
@@ -589,7 +638,7 @@
             top: -10px;
             right: 15px;
             background: var(--verde-oliva);
-            color: var(--blanco);
+            color: #FFFFFF;
             font-size: 0.65rem;
             font-weight: 700;
             padding: 2px 8px;
@@ -608,6 +657,10 @@
             margin: 10px 0;
         }
 
+        [data-theme="dark"] .price-card .cost {
+            color: #C1D5C6;
+        }
+
         .price-card .cost span {
             font-size: 0.85rem;
             color: var(--texto-suave);
@@ -619,7 +672,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            font-size: 0.8·rem;
+            font-size: 0.8rem;
             color: var(--texto-suave);
             margin-top: 15px;
         }
@@ -634,7 +687,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-color);
         }
 
         .product-img-container img {
@@ -704,7 +757,7 @@
                 gap: 30px;
             }
 
-            .segment-view.active-view {
+            .segment-view {
                 flex-direction: column;
                 grid-template-columns: 1fr 1.5fr;
                 gap: 30px;
@@ -724,14 +777,13 @@
             .menu-toggle-btn,
             .sidebar-overlay,
             .btn-row,
-            .segment-toggle-bar,
             .team-tabs,
             .team-detail-panel,
+            .theme-toggle-btn,
             #creditos {
                 display: none !important;
             }
 
-            /* Hacemos visible la lista completa de todos los miembros exclusivamente en la impresión */
             .print-only-team-list {
                 display: block !important;
             }
@@ -787,6 +839,7 @@
                 page-break-inside: avoid !important;
                 border: 1px solid #DDDDDD !important;
                 margin-bottom: 20px !important;
+                background: #FFFFFF !important;
             }
 
             .metrics-grid,
@@ -798,15 +851,13 @@
 
             .comp-table {
                 min-width: 100% !important;
+                background: #FFFFFF !important;
             }
 
             th,
             td {
                 border: 1px solid #EEEEEE !important;
-            }
-
-            .interactive-team-container {
-                display: block !important;
+                color: #000000 !important;
             }
         }
     </style>
@@ -822,6 +873,10 @@
                 <span>Brief de Negocio</span>
             </div>
         </div>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar tema">
+            <span class="material-symbols-outlined theme-icon" style="font-size:1.1rem;">dark_mode</span>
+            <span class="theme-text">Modo Oscuro</span>
+        </button>
     </div>
 
     <aside class="sidebar" id="sidebar">
@@ -877,6 +932,14 @@
                 </a>
             </li>
         </ul>
+
+        <!-- BOTÓN UBICADO EN LA PARTE INFERIOR DEL MENÚ LATERAL -->
+        <div class="sidebar-theme-container">
+            <button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar tema">
+                <span class="material-symbols-outlined theme-icon" style="font-size:1.1rem;">dark_mode</span>
+                <span class="theme-text">Modo Oscuro</span>
+            </button>
+        </div>
     </aside>
 
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileMenu()"></div>
@@ -889,9 +952,8 @@
 
         <section id="resumen" class="brief-section active-section">
             <div class="hero-card">
-                <h1>Modelando el futuro de la cosmética viva y natural</h1>
-                <p>Origen Herbal es el ecosistema nativo digital que fusiona la pureza botánica en lotes frescos con
-                    empaques circulares de aluminio retornable.</p>
+                <h1>Soluciones artesanales y naturales para el cuidado capilar</h1>
+                <p>Origen Herbal ofrece productos formulados con extractos botánicos (romero, canela, clavo, jengibre) diseñados para prevenir la caída del cabello, controlar el exceso de grasa y estimular el crecimiento sin químicos agresivos, combinados con asesoría personalizada directa.</p>
                 <div class="btn-row">
                     <button class="action-btn" onclick="document.querySelector('[onclick*=\'comercial\']').click()">
                         <span class="material-symbols-outlined" style="font-size:1.1rem;">sell</span> Ver Catálogo
@@ -905,20 +967,20 @@
 
             <div class="metrics-grid">
                 <div class="metric-card"><span>Modelo de negocio</span>
-                    <h3>E-commerce</h3>
-                    <p>D2C & Consumidor</p>
+                    <h3>D2C Directo</h3>
+                    <p>Venta Directa & WhatsApp</p>
                 </div>
-                <div class="metric-card"><span>Retención Meta</span>
-                    <h3>35%</h3>
-                    <p>Anual en recurrencia</p>
+                <div class="metric-card"><span>Propósito</span>
+                    <h3>Capilar</h3>
+                    <p>Anticaída y Control Grasa</p>
                 </div>
                 <div class="metric-card"><span>Audiencia objetivo</span>
-                    <h3>Conscientes</h3>
-                    <p>Millennials / Gen Z/Y/X</p>
+                    <h3>B2C Consciente</h3>
+                    <p>Mujeres y Hombres (20-60)</p>
                 </div>
                 <div class="metric-card"><span>Diferenciador</span>
-                    <h3>Circular</h3>
-                    <p>Retorno de envases</p>
+                    <h3>Asesoría</h3>
+                    <p>Atención personalizada</p>
                 </div>
             </div>
 
@@ -929,7 +991,7 @@
                         <h4>Fabricación del producto</h4>
                         <span style="font-size:0.75rem; color:var(--verde-oliva); font-weight:700;">100%</span>
                     </div>
-                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                    <div style="width:100%; background:var(--border-color); height:6px; border-radius:4px; overflow:hidden;">
                         <div style="width:100%; background:var(--verde-oliva); height:100%;"></div>
                     </div>
                 </div>
@@ -938,7 +1000,7 @@
                         <h4>Distribución</h4>
                         <span style="font-size:0.75rem; color:var(--verde-oliva); font-weight:700;">100%</span>
                     </div>
-                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                    <div style="width:100%; background:var(--border-color); height:6px; border-radius:4px; overflow:hidden;">
                         <div style="width:100%; background:var(--verde-oliva); height:100%;"></div>
                     </div>
                 </div>
@@ -947,7 +1009,7 @@
                         <h4>Estrategias de marketing</h4>
                         <span style="font-size:0.75rem; color:#D9A74A; font-weight:700;">75%</span>
                     </div>
-                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                    <div style="width:100%; background:var(--border-color); height:6px; border-radius:4px; overflow:hidden;">
                         <div style="width:75%; background:#D9A74A; height:100%;"></div>
                     </div>
                 </div>
@@ -956,7 +1018,7 @@
                         <h4>Logística</h4>
                         <span style="font-size:0.75rem; color:var(--texto-suave); font-weight:700;">70%</span>
                     </div>
-                    <div style="width:100%; background:#EEEEEE; height:6px; border-radius:4px; overflow:hidden;">
+                    <div style="width:100%; background:var(--border-color); height:6px; border-radius:4px; overflow:hidden;">
                         <div style="width:70%; background:var(--verde-claro); height:100%;"></div>
                     </div>
                 </div>
@@ -1021,7 +1083,6 @@
                     </div>
                 </div>
 
-                <!-- PANEL INTERACTIVO DE PANTALLA -->
                 <div class="team-detail-panel panel-ceo">
                     <span class="panel-label" id="team-label">Estrategia Corporativa</span>
                     <h3 id="team-title">Dirección General</h3>
@@ -1035,7 +1096,6 @@
                     </div>
                 </div>
 
-                <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN/PDF (SE GENERA AUTOMÁTICAMENTE CON JS) -->
                 <div class="print-only-team-list" id="print-team-container"></div>
             </div>
         </section>
@@ -1045,8 +1105,8 @@
                 <h2>2. Información de la Empresa</h2>
                 <p>Nuestra identidad corporativa profunda, propósito medular y bases éticas.</p>
             </div>
-            <div class="segment-view active-view">
-                <div class="profile-summary-card" style="background: var(--verde-oscuro); color: var(--blanco);">
+            <div class="segment-view">
+                <div class="profile-summary-card" style="background: var(--verde-oscuro); color: #FFFFFF;">
                     <h3 style="color: var(--verde-claro); margin-bottom: 10px;">Misión</h3>
                     <p style="font-size: 0.9rem; opacity:0.9;">Proveer alternativas de cuidado personal botánico que
                         respeten fielmente los ritmos orgánicos del cuerpo y de la tierra, erradicando el uso de
@@ -1094,7 +1154,7 @@
 
             <h3 style="font-size: 1.2rem; margin: 35px 0 15px 0;">Nuestra Historia</h3>
             <div class="profile-summary-card"
-                style="background: var(--blanco); border-left: 4px solid var(--verde-oliva);">
+                style="border-left: 4px solid var(--verde-oliva);">
                 <p style="font-size: 0.9rem; color: var(--texto-suave); line-height: 1.6;">
                     La empresa Origen Herbal fue creada en julio del año 2025 como respuestaalanecesidad identificada en
                     el entorno cercano, donde familiares y conocidospresentaban problemas frecuentes de caída del
@@ -1167,23 +1227,23 @@
                 <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 15px;">
                     <input type="number" id="input-suscriptores" value="500" min="10" step="50"
                         oninput="calcularImpacto()"
-                        style="padding: 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; width: 120px; font-family: var(--fuente-cuerpo); font-size: 1rem; font-weight: 600; color: var(--verde-oscuro);">
+                        style="padding: 10px; border: 1px solid var(--border-color); background: var(--bg-card); border-radius: 6px; width: 120px; font-family: var(--fuente-cuerpo); font-size: 1rem; font-weight: 600; color: var(--texto-oscuro);">
                     <span style="font-size: 0.9rem; color: var(--texto-suave); font-weight: 600;">Compradores
                         recurrentes</span>
                 </div>
                 <div class="metrics-grid" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                    <div style="background:var(--blanco); padding:12px; border-radius:6px; text-align:center;">
+                    <div style="background:var(--bg-card); padding:12px; border-radius:6px; border: 1px solid var(--border-color); text-align:center;">
                         <span
                             style="font-size:0.7rem; color:var(--texto-suave); display:block; text-transform:uppercase;">Botellas
                             Plásticas Evitadas / Año</span>
-                        <h4 id="impacto-botellas" style="font-size:1.6rem; color:var(--verde-oscuro); margin-top:4px;">
+                        <h4 id="impacto-botellas" style="font-size:1.6rem; color:var(--verde-oliva); margin-top:4px;">
                             6,000</h4>
                     </div>
-                    <div style="background:var(--blanco); padding:12px; border-radius:6px; text-align:center;">
+                    <div style="background:var(--bg-card); padding:12px; border-radius:6px; border: 1px solid var(--border-color); text-align:center;">
                         <span
                             style="font-size:0.7rem; color:var(--texto-suave); display:block; text-transform:uppercase;">Huella
                             de CO₂ Reducida</span>
-                        <h4 id="impacto-co2" style="font-size:1.6rem; color:var(--verde-oscuro); margin-top:4px;">180 kg
+                        <h4 id="impacto-co2" style="font-size:1.6rem; color:var(--verde-oliva); margin-top:4px;">180 kg
                         </h4>
                     </div>
                 </div>
@@ -1193,28 +1253,34 @@
         <section id="segmentacion" class="brief-section">
             <div class="section-header">
                 <h2>4. Segmentación de Mercados</h2>
-                <p>Comprensión del público consumidor (B2C) y aliados estratégicos (B2B).</p>
-            </div>
-            <div class="segment-toggle-bar">
-                <button class="segment-btn active" onclick="switchSegmentView('b2c', this)">Público B2C</button>
-                <button class="segment-btn" onclick="switchSegmentView('b2b', this)">Marcas B2B</button>
+                <p>Comprensión profunda del público consumidor final (B2C) y sus motivaciones de compra.</p>
             </div>
 
-            <div id="segment-b2c" class="segment-view active-view">
+            <div id="segment-b2c" class="segment-view">
                 <div class="profile-summary-card">
                     <span class="profile-badge">B2C</span>
                     <h3>Consumidor Consciente</h3>
-                    <p style="font-size:0.9rem; color:var(--texto-suave);">Mujeres entre 20 y 60 años,Personas con caída
-                        del cabello, resequedad,Consumidores interesados en productos naturales, Clientes que compran
+                    <p style="font-size:0.9rem; color:var(--texto-suave);">Mujeres entre 20 y 60 años, Personas con caída
+                        del cabello, resequedad, Consumidores interesados en productos naturales, Clientes que compran
                         por redes sociales, Personas que valoran la asesoría personalizada.</p>
                 </div>
+
                 <div class="profile-detail-card">
                     <h4>Mateo, 26 años (Activista)</h4>
-                    <div class="quote-block">"No quiero comprar productos que dejen botellas plásticas flotando en el
-                        océano durante cien años."</div>
+                    <div class="quote-block">"No quiero comprar productos que tengan quimicos que puedan dañar mi cabello. El shampoo es muy natural y organico."</div>
                 </div>
 
-                <div style="width: 100%; flex: 1 1 100%; margin-top: 30px;">
+                <div class="profile-detail-card">
+                    <h4>Camila, 32 años (Profesional)</h4>
+                    <div class="quote-block">"Había probado de todo para la caída del cabello por estrés y el exceso de grasa. El combo de shampoo y tónico herbal me recuperó el brillo y el volumen en pocas semanas."</div>
+                </div>
+
+                <div class="profile-detail-card">
+                    <h4>Valentina, 45 años (Amante del Cuidado Natural)</h4>
+                    <div class="quote-block">"Para mí es fundamental saber exactamente qué ingredientes me aplico y valorar el acompañamiento personalizado que brindan por WhatsApp para ajustar mi rutina."</div>
+                </div>
+
+                <div style="width: 100%; flex: 1 1 100%; margin-top: 10px;">
                     <h4
                         style="font-size: 1rem; margin: 0 0 15px 0; color: var(--verde-oscuro); font-family: var(--fuente-titulos); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
                         Distribución de Canales de Adquisición
@@ -1222,7 +1288,7 @@
                     <div class="values-row"
                         style="margin-top: 0; gap: 15px; display: flex; width: 100%; overflow: auto;">
                         <div class="value-mini-card"
-                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid var(--border-color); padding: 15px; box-sizing: border-box;">
                             <div
                                 style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
                                 <h5
@@ -1231,7 +1297,7 @@
                                 <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">45%</span>
                             </div>
                             <div
-                                style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                style="width: 100%; background: var(--bg-card); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
                                 <div style="width: 45%; background: var(--verde-oliva); height: 100%;"></div>
                             </div>
                             <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
@@ -1241,26 +1307,25 @@
                         </div>
 
                         <div class="value-mini-card"
-                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid var(--border-color); padding: 15px; box-sizing: border-box;">
                             <div
                                 style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
                                 <h5
                                     style="font-size: 0.85rem; color: var(--texto-oscuro); font-weight: 600; margin: 0;">
-                                    Programa de Referidos</h5>
+                                    Voz a voz</h5>
                                 <span style="font-size: 1.2rem; color: var(--verde-oliva); font-weight: 800;">30%</span>
                             </div>
                             <div
-                                style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                style="width: 100%; background: var(--bg-card); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
                                 <div style="width: 30%; background: var(--verde-oliva); height: 100%;"></div>
                             </div>
                             <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
-                                Crecimiento orgánico voz a voz mediante incentivos y benefits cruzados en la
-                                suscripción app.
+                                Crecimiento orgánico voz a voz mediante la confianza de los compradores.
                             </p>
                         </div>
 
                         <div class="value-mini-card"
-                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid rgba(0,0,0,0.03); padding: 15px; box-sizing: border-box;">
+                            style="flex: 1; min-width: 200px; background: var(--arena); border: 1px solid var(--border-color); padding: 15px; box-sizing: border-box;">
                             <div
                                 style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
                                 <h5
@@ -1269,7 +1334,7 @@
                                 <span style="font-size: 1.2rem; color: #D9A74A; font-weight: 800;">25%</span>
                             </div>
                             <div
-                                style="width: 100%; background: var(--blanco); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
+                                style="width: 100%; background: var(--bg-card); height: 5px; border-radius: 3px; overflow: hidden; margin-bottom: 8px;">
                                 <div style="width: 25%; background: #D9A74A; height: 100%;"></div>
                             </div>
                             <p style="font-size: 0.78rem; color: var(--texto-suave); margin: 0; line-height: 1.4;">
@@ -1278,20 +1343,6 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div id="segment-b2b" class="segment-view">
-                <div class="profile-summary-card">
-                    <span class="profile-badge">B2B</span>
-                    <h3>Hoteles & Spas Boutique</h3>
-                    <p style="font-size:0.9rem; color:var(--texto-suave);">Centros premium que requieren amenidades de
-                        alta gama libres de empaques desechables.</p>
-                </div>
-                <div class="profile-detail-card">
-                    <h4>Elena, 38 años (Eco-Resort)</h4>
-                    <div class="quote-block">"Nuestros huéspedes de lujo exigen coherencia absoluta con nuestra
-                        filosofía carbono neutro."</div>
                 </div>
             </div>
         </section>
@@ -1319,7 +1370,7 @@
                             <td>Utiliza una combinación de extractos de romero, quina, ortiga y otras plantas medicinales, complementados con ingredientes cosméticos que favorecen la limpieza del cuero cabelludo, la hidratación y el fortalecimiento del cabello. Sus productos están dirigidos a personas que buscan alternativas de origen natural.</td>
                             <td>Emplea extractos botánicos, aceites vegetales y componentes hidratantes que favorecen la nutrición del cabello, el control del frizz y la reparación de la fibra capilar. Está enfocada en el uso de ingredientes inspirados en la naturaleza.</td>
                             <td>Combina ingredientes naturales como romero, jengibre, quina y extractos vegetales, junto con activos cosméticos de alto desempeño, para fortalecer el cabello, estimular el crecimiento y mejorar la hidratación y resistencia de la fibra capilar.</td>
-                            <td class="brand-highlight" title="Pureza botánica controlada científicamente en frío.">
+                            <td class="brand-highlight" title="Pureza botánica controlada scientifically en frío.">
                                 La marca se caracteriza por elaborar productos capilares artesanales y naturales que previenen la caída, controlan la grasa y estimulan el crecimiento sin químicos agresivos. Además, destaca por su transparencia en los ingredientes y por promover un cuidado consciente de la salud capilar.</td>
                         </tr>
                         <tr>
@@ -1409,7 +1460,7 @@
                     <a href="https://github.com/LedesmitaDJ/OrigenHerbal" target="_blank" class="action-btn" style="text-decoration: none; font-size: 0.8rem; padding: 8px 16px; background: var(--verde-oscuro); color: white;">
                         <span class="material-symbols-outlined" style="font-size: 1.1rem;">deployed_code</span> Repositorio de GitHub
                     </a>
-                    <a href="#" target="_blank" class="action-btn secondary" style="text-decoration: none; font-size: 0.8rem; padding: 8px 16px; color: var(--texto-oscuro); border-color: rgba(0,0,0,0.15);">
+                    <a href="#" target="_blank" class="action-btn secondary" style="text-decoration: none; font-size: 0.8rem; padding: 8px 16px; color: var(--texto-oscuro); border-color: var(--border-color);">
                         <span class="material-symbols-outlined" style="font-size: 1.1rem;">download</span> Descargar Brief Completo
                     </a>
                 </div>
@@ -1419,6 +1470,30 @@
     </main>
 
     <script>
+        // --- FUNCIÓN MODO CLARO / OSCURO ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeUI(newTheme);
+        }
+
+        function updateThemeUI(theme) {
+            const isDark = theme === 'dark';
+            const icons = document.querySelectorAll('.theme-icon');
+            const texts = document.querySelectorAll('.theme-text');
+
+            icons.forEach(icon => {
+                icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+            });
+
+            texts.forEach(text => {
+                text.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
+            });
+        }
+
         function switchSection(sectionId, element) {
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
             element.classList.add('active');
@@ -1518,19 +1593,6 @@
             container.innerHTML = htmlContent;
         }
 
-        function switchSegmentView(viewType, element) {
-            document.querySelectorAll('.segment-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-
-            if (viewType === 'b2c') {
-                document.getElementById('segment-b2c').classList.add('active-view');
-                document.getElementById('segment-b2b').classList.remove('active-view');
-            } else {
-                document.getElementById('segment-b2b').classList.add('active-view');
-                document.getElementById('segment-b2c').classList.remove('active-view');
-            }
-        }
-
         function calcularImpacto() {
             const suscriptores = parseInt(document.getElementById('input-suscriptores').value) || 0;
             const botellasEvitadas = suscriptores * 12;
@@ -1541,6 +1603,10 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            const initialTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', initialTheme);
+            updateThemeUI(initialTheme);
+            
             showTeamDetail('direccion'); 
             buildPrintTeamList();        
         });
